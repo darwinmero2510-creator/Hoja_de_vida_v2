@@ -1,5 +1,5 @@
 <?php
-// Subimos un nivel (..) para salir de 'config' y encontrar 'vendor'
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Cloudinary\Configuration\Configuration;
