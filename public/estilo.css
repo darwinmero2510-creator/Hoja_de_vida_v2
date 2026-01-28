@@ -1,0 +1,159 @@
+/* Variables de color de la paleta Ainhoa */
+:root {
+    --cafe-oscuro: #4a3a35;
+    --cafe-claro: #dcbfae;
+    --nude-fondo: #f4e1d2;
+    --blanco-puro: #ffffff;
+    --texto-suave: #6b5b55;
+}
+
+/* Configuración Base */
+body {
+    background-color: #d7bfae; 
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    margin: 0;
+}
+
+/* La Hoja (Contenedor) */
+.hoja-vida {
+    width: 900px;
+    min-height: 1150px;
+    background: var(--blanco-puro);
+    display: grid;
+    grid-template-columns: 35% 65%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+    background-image: 
+        radial-gradient(circle at 0% 0%, var(--nude-fondo) 15%, transparent 25%),
+        radial-gradient(circle at 100% 100%, var(--nude-fondo) 15%, transparent 25%);
+}
+
+/* --- COLUMNA IZQUIERDA (Sidebar) --- */
+.col-izq {
+    padding: 50px 35px;
+    z-index: 1;
+}
+
+.foto-circular {
+    width: 190px;
+    height: 190px;
+    background: #e0e0e0; /* Aquí irá tu foto pronto */
+    border-radius: 50%;
+    margin: 0 auto 40px auto;
+    border: 5px solid var(--blanco-puro);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.bloque {
+    margin-bottom: 45px;
+}
+
+.titulo-caja {
+    background-color: var(--cafe-claro);
+    color: var(--cafe-oscuro);
+    padding: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.descripcion {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--texto-suave);
+}
+
+/* Barras de Habilidades Corregidas */
+.habilidad-item {
+    margin-bottom: 25px;
+}
+
+.habilidad-item span {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cafe-oscuro);
+    margin-bottom: 12px; /* Espacio extra para que no esté pegado a la barra */
+    text-transform: uppercase;
+}
+
+.barra-fondo {
+    width: 100%;
+    height: 8px;
+    background-color: #eee;
+    border-radius: 10px;
+}
+
+.barra-progreso {
+    height: 100%;
+    background-color: var(--cafe-oscuro);
+    border-radius: 10px;
+}
+
+/* --- COLUMNA DERECHA (Contenido) --- */
+.col-der {
+    padding: 60px 50px;
+}
+
+/* Encabezado Ajustado para que no se vea junto */
+.encabezado-nombre {
+    margin-bottom: 60px;
+}
+
+.encabezado-nombre h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5rem;
+    color: var(--cafe-oscuro);
+    line-height: 0.85; /* Ajuste para separar nombre de apellido */
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.info-contacto {
+    margin-top: 40px; /* Espacio para que respire bajo el nombre */
+    display: flex;
+    gap: 25px;
+    color: var(--cafe-oscuro);
+    font-size: 0.9rem;
+}
+
+/* Secciones de Contenido */
+.titulo-linea {
+    background-color: var(--cafe-claro);
+    color: var(--cafe-oscuro);
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+/* Experiencia con línea de tiempo */
+.item-experiencia {
+    margin-bottom: 35px;
+    border-left: 2px solid var(--cafe-claro);
+    padding-left: 25px;
+}
+
+.periodo {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+.desc-exp {
+    font-size: 0.9rem;
+    color: var(--texto-suave);
+    line-height: 1.6;
+}
+
+.item-educacion {
+    margin-bottom: 25px;
+}
