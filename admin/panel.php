@@ -18,11 +18,15 @@ $d = mysqli_fetch_assoc($res_p);
         button { background: #4a3a35; color: white; border: none; padding: 12px; cursor: pointer; width: 100%; border-radius: 6px; font-weight: bold; transition: 0.3s; }
         button:hover { background: #634f47; }
         label { font-weight: bold; font-size: 0.85rem; color: #555; }
+        /* Estilo para el botón de cerrar sesión */
+        .btn-salir { float: right; background: #e74c3c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 0.9rem; margin-top: -50px; }
+        .btn-salir:hover { background: #c0392b; }
     </style>
 </head>
 <body>
-    <div style="max-width: 1100px; margin: auto;">
+    <div style="max-width: 1100px; margin: auto; position: relative;">
         <h1 style="text-align:center; color:#4a3a35;">Panel de Control Total</h1>
+        <a href="logout.php" class="btn-salir"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
 
         <div class="card">
             <h2><i class="fas fa-user-circle"></i> Mi Perfil</h2>
@@ -112,7 +116,7 @@ $d = mysqli_fetch_assoc($res_p);
                 e.preventDefault();
                 return false;
             }
-        };
+        }
     });
     </script>
 </body>
