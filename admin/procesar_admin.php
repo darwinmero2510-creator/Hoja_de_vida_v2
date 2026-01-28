@@ -1,12 +1,27 @@
 <?php
 include '../config/conexion.php';
+// Paso clave: Incluimos la configuración de Cloudinary que creamos antes
+include '../config/config_cloudinary.php'; 
+
+use Cloudinary\Api\Upload\UploadApi; // Importamos la herramienta de subida
+
 $acc = $_POST['accion'] ?? null;
 
-function subir($f, $p) {
-    if(!isset($f['name']) || $f['name'] == "") return null;
-    $n = $p . "_" . time() . "_" . str_replace(' ', '_', $f['name']);
-    move_uploaded_file($f['tmp_name'], "../public/" . $n);
-    return "public/" . $n;
+// FUNCIÓN SUBIR CORREGIDA PARA CLOUDINARY
+function subir($f) {
+    // Si no hay archivo, retornamos nulo
+    if(!isset($f['tmp_name']) || $f['tmp_name'] == "") return null;
+    
+    try {
+        // Subimos el archivo temporal directamente a la nube
+        $uploadApi = new UploadApi();
+        $resultado = $uploadApi->upload($f['tmp_name']);
+        
+        // Retornamos la URL segura (https) que nos da Cloudinary
+        return $resultado['secure_url']; 
+    } catch (Exception $e) {
+        return null; // Si algo falla, no guarda nada para no romper la BD
+    }
 }
 
 if ($acc == 'nueva_experiencia') {
@@ -20,14 +35,15 @@ if ($acc == 'nueva_experiencia') {
 if ($acc == 'nuevo_curso') {
     $i = (int)$_POST['f_inicio']; $f = (int)$_POST['f_fin'];
     if ($f >= $i) {
-        $n = $_POST['nombre']; $r = subir($_FILES['archivo'], "cur");
+        $n = $_POST['nombre']; 
+        $r = subir($_FILES['archivo']); // Ahora $r será un link de Cloudinary
         mysqli_query($conexion, "INSERT INTO cursos (idperfil, nombre_curso, fecha_inicio, fecha_fin, archivo_url) VALUES (1, '$n', '$i', '$f', '$r')");
     }
 }
 
 if ($acc == 'nuevo_reconocimiento') {
     $t = $_POST['titulo']; $inst = $_POST['inst'];
-    $r = subir($_FILES['archivo'], "rec");
+    $r = subir($_FILES['archivo']); 
     mysqli_query($conexion, "INSERT INTO reconocimientos (idperfil, titulo, institucion, archivo_url) VALUES (1, '$t', '$inst', '$r')");
 }
 
@@ -38,13 +54,13 @@ if ($acc == 'nuevo_producto') {
 
 if ($acc == 'nueva_venta') {
     $a = $_POST['articulo']; $p = $_POST['precio'];
-    $r = subir($_FILES['foto'], "vnt");
+    $r = subir($_FILES['foto']); 
     mysqli_query($conexion, "INSERT INTO venta_garaje (articulo, precio, foto_url) VALUES ('$a', '$p', '$r')");
 }
 
 if ($acc == 'datos_personales') {
     $n = $_POST['nombre']; $c = $_POST['correo']; $t = $_POST['telefono']; $d = $_POST['perfil_desc'];
-    $foto = subir($_FILES['foto'], "p");
+    $foto = subir($_FILES['foto']); 
     $sql = "UPDATE datos_personales SET nombre='$n', correo='$c', telefono='$t', perfil_descripcion='$d'";
     if($foto) $sql .= ", foto_perfil='$foto'";
     mysqli_query($conexion, $sql . " WHERE idperfil=1");
