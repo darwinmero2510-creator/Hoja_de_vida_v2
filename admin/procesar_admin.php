@@ -1,6 +1,6 @@
 <?php
 include '../config/conexion.php';
-// Paso clave: Incluimos la configuración de Cloudinary que creamos antes
+
 include '../config/config_cloudinary.php'; 
 
 use Cloudinary\Api\Upload\UploadApi; // Importamos la herramienta de subida
