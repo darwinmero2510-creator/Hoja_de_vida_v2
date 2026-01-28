@@ -1,7 +1,8 @@
 FROM php:8.1-apache
-# Instalamos la extensión necesaria para conectar PHP con MySQL
-RUN docker-php-ext-install mysqli
-# Copiamos todos tus archivos de VS Code al servidor de Render
+
+RUN apt-get update && apt-get install -y unzip git
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . /var/www/html/
-# Le decimos a Render que use el puerto 80
-EXPOSE 80
+
+RUN composer install --no-interaction
