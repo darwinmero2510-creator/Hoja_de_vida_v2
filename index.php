@@ -1,20 +1,15 @@
 <?php
 include 'config/conexion.php';
 
-// Función para mostrar fechas bonitas (Enero 2025)
+// Función para fechas profesionales (Enero 2025)
 function obtenerFechaFormateada($fecha) {
     if (empty($fecha)) return "Actualidad";
-    $mesesEspañol = [
-        "01" => "Enero", "02" => "Febrero", "03" => "Marzo", "04" => "Abril",
-        "05" => "Mayo", "06" => "Junio", "07" => "Julio", "08" => "Agosto",
-        "09" => "Septiembre", "10" => "Octubre", "11" => "Noviembre", "12" => "Diciembre"
-    ];
+    $mesesEspañol = ["01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio","07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembre"];
     $partes = explode("-", $fecha);
-    if(count($partes) < 2) return $fecha;
-    return $mesesEspañol[$partes[1]] . " " . $partes[0];
+    return (count($partes) >= 2) ? $mesesEspañol[$partes[1]] . " " . $partes[0] : $fecha;
 }
 
-// Datos Personales
+// Datos del Perfil (Asegúrate que coincidan con tu tabla datos_personales)
 $res_p = mysqli_query($conexion, "SELECT * FROM datos_personales WHERE idperfil=1");
 $d = mysqli_fetch_assoc($res_p);
 ?>
@@ -31,8 +26,9 @@ $d = mysqli_fetch_assoc($res_p);
 <body>
 
     <div class="hoja-vida">
+        
         <aside class="col-izq">
-            <div class="foto-circular" style="background-image: url('<?php echo $d['foto_url']; ?>'); background-size: cover; background-position: center;"></div>
+            <div class="foto-circular" style="background-image: url('<?php echo $d['foto_url']; ?>'); background-size: cover;"></div>
             
             <div class="bloque">
                 <div class="titulo-caja">Perfil</div>
@@ -64,7 +60,7 @@ $d = mysqli_fetch_assoc($res_p);
             <section>
                 <div class="titulo-linea">Experiencia Laboral</div>
                 <?php 
-                // Usamos experiencia_laboral y f_inicio/f_fin de HeidiSQL
+                // Usamos la tabla experiencia_laboral y columnas f_inicio/f_fin
                 $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
                 while($exp = mysqli_fetch_assoc($res_exp)): ?>
                     <div class="item-experiencia">
@@ -78,14 +74,14 @@ $d = mysqli_fetch_assoc($res_p);
             <section>
                 <div class="titulo-linea">Formación y Cursos</div>
                 <?php 
-                // Usamos nombre_curso e institucion de HeidiSQL
+                // Corregido: 'nombre_curso' e 'institucion'
                 $res_cur = mysqli_query($conexion, "SELECT * FROM cursos ORDER BY f_inicio DESC");
                 while($cur = mysqli_fetch_assoc($res_cur)): ?>
                     <div class="item-educacion">
                         <strong><?php echo $cur['nombre_curso']; ?></strong>
                         <div class="periodo"><?php echo $cur['institucion']; ?> | <?php echo obtenerFechaFormateada($cur['f_inicio']); ?></div>
                         <?php if(!empty($cur['archivo_url'])): ?>
-                            <a href="<?php echo $cur['archivo_url']; ?>" target="_blank" style="color: var(--cafe-oscuro); font-size: 0.8rem;">
+                            <a href="<?php echo $cur['archivo_url']; ?>" target="_blank" style="color: var(--cafe-oscuro);">
                                 <i class="fas fa-file-pdf"></i> Ver Certificado
                             </a>
                         <?php endif; ?>
