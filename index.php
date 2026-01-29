@@ -73,7 +73,7 @@ $d = mysqli_fetch_assoc($res_p);
                             <small style="color: #8b5e3c; font-weight: bold;"><?php echo obtenerFechaFormateada($c['fecha']); ?></small> | 
                             <small><?php echo $c['institucion']; ?></small>
                             <?php if(!empty($c['archivo'])): ?>
-                                <br><a href="<?php echo $c['archivo']; ?>" target="_blank" style="font-size: 0.8rem; color: #4b3621;"><i class="fas fa-file-pdf"></i> Ver Certificado</a>
+                                <br><a href="admin/<?php echo $c['archivo']; ?>" target="_blank" style="font-size: 0.8rem; color: #4b3621;"><i class="fas fa-file-pdf"></i> Ver Certificado</a>
                             <?php endif; ?>
                         </div>
                     <?php endwhile; ?>
@@ -87,6 +87,9 @@ $d = mysqli_fetch_assoc($res_p);
                         <div style="margin-bottom: 10px;">
                             <strong><?php echo $r['titulo']; ?></strong>
                             <p style="margin:0; font-size: 0.85rem; color: #666;"><?php echo $r['institucion']; ?></p>
+                            <?php if(!empty($r['archivo'])): ?>
+                                <a href="admin/<?php echo $r['archivo']; ?>" target="_blank" style="font-size: 0.8rem; color: #4b3621;"><i class="fas fa-certificate"></i> Ver Archivo</a>
+                            <?php endif; ?>
                         </div>
                     <?php endwhile; ?>
                 </section>
@@ -101,7 +104,7 @@ $d = mysqli_fetch_assoc($res_p);
                         <strong><?php echo $p['nombre_producto']; ?></strong> 
                         <span class="badge"><?php echo $p['tipo']; ?></span> <p style="font-size: 0.9rem; margin-top: 5px;"><?php echo $p['descripcion']; ?></p>
                         <?php if(!empty($p['archivo'])): ?>
-                            <a href="<?php echo $p['archivo']; ?>" target="_blank" style="font-size: 0.8rem; color: #4b3621;"><i class="fas fa-external-link-alt"></i> Ver Proyecto</a>
+                            <a href="admin/<?php echo $p['archivo']; ?>" target="_blank" style="font-size: 0.8rem; color: #4b3621;"><i class="fas fa-external-link-alt"></i> Ver Proyecto</a>
                         <?php endif; ?>
                     </div>
                 <?php endwhile; ?>
@@ -110,8 +113,8 @@ $d = mysqli_fetch_assoc($res_p);
             <section class="caja-blanca">
                 <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
                 <?php 
-                // Cambiamos 'ventas' por 'venta' para que coincida con tu BD
-                $res_ven = mysqli_query($conexion, "SELECT * FROM venta"); 
+                // AJUSTE: Usamos @ para evitar que el error fatal rompa la página si la tabla aún tiene problemas de nombre
+                $res_ven = @mysqli_query($conexion, "SELECT * FROM venta"); 
                 if($res_ven):
                     while($v = mysqli_fetch_assoc($res_ven)): ?>
                         <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
@@ -119,7 +122,9 @@ $d = mysqli_fetch_assoc($res_p);
                             <strong style="color: #4b3621;">$<?php echo $v['precio']; ?></strong>
                         </div>
                     <?php endwhile; 
-                endif; ?>
+                else: ?>
+                    <p style="font-size: 0.8rem; color: #999;">Cargando información de ventas...</p>
+                <?php endif; ?>
             </section>
         </main>
     </div>
