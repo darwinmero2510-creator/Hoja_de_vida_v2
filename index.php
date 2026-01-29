@@ -111,21 +111,33 @@ $d = mysqli_fetch_assoc($res_p);
             </section>
 
             <section class="caja-blanca">
-                <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
-                <?php 
-                // AJUSTE: Usamos @ para evitar que el error fatal rompa la página si la tabla aún tiene problemas de nombre
-                $res_ven = @mysqli_query($conexion, "SELECT * FROM venta_garaje"); 
-                if($res_ven):
-                    while($v = mysqli_fetch_assoc($res_ven)): ?>
-                        <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
-                            <span><?php echo $v['nombre_objeto']; ?></span>
-                            <strong style="color: #4b3621;">$<?php echo $v['precio']; ?></strong>
+    <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
+    <?php 
+    $res_ven = @mysqli_query($conexion, "SELECT * FROM venta_garaje"); 
+    if($res_ven):
+        while($v = mysqli_fetch_assoc($res_ven)): 
+            // Buscamos el nombre en columnas comunes por si acaso
+            $nombreValido = $v['nombre_objeto'] ?? $v['nombre'] ?? $v['producto'] ?? 'Objeto sin nombre';
+    ?>
+            <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <?php if(!empty($v['imagen'])): ?>
+                        <img src="admin/<?php echo $v['imagen']; ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+                    <?php else: ?>
+                        <div style="width: 60px; height: 60px; background: #eee; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            <i class="fas fa-image"></i>
                         </div>
-                    <?php endwhile; 
-                else: ?>
-                    <p style="font-size: 0.8rem; color: #999;">Cargando información de ventas...</p>
-                <?php endif; ?>
-            </section>
+                    <?php endif; ?>
+                    
+                    <span style="font-weight: 600; color: #4b3621;"><?php echo $nombreValido; ?></span>
+                </div>
+                <strong style="color: #4b3621; font-size: 1.1rem;">$<?php echo $v['precio']; ?></strong>
+            </div>
+        <?php endwhile; 
+    else: ?>
+        <p style="font-size: 0.8rem; color: #999;">Cargando catálogo de ventas...</p>
+    <?php endif; ?>
+</section>
         </main>
     </div>
 </body>
