@@ -19,7 +19,7 @@ $d = mysqli_fetch_assoc($res_p);
 <head>
     <meta charset="UTF-8">
     <title>CV Darwin - Portafolio</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="public/estilo.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
