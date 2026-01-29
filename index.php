@@ -110,13 +110,16 @@ $d = mysqli_fetch_assoc($res_p);
             <section class="caja-blanca">
                 <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
                 <?php 
-                $res_ven = mysqli_query($conexion, "SELECT * FROM ventas");
-                while($v = mysqli_fetch_assoc($res_ven)): ?>
-                    <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
-                        <span><?php echo $v['nombre_objeto']; ?></span>
-                        <strong style="color: #4b3621;">$<?php echo $v['precio']; ?></strong>
-                    </div>
-                <?php endwhile; ?>
+                // Cambiamos 'ventas' por 'venta' para que coincida con tu BD
+                $res_ven = mysqli_query($conexion, "SELECT * FROM venta"); 
+                if($res_ven):
+                    while($v = mysqli_fetch_assoc($res_ven)): ?>
+                        <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
+                            <span><?php echo $v['nombre_objeto']; ?></span>
+                            <strong style="color: #4b3621;">$<?php echo $v['precio']; ?></strong>
+                        </div>
+                    <?php endwhile; 
+                endif; ?>
             </section>
         </main>
     </div>
