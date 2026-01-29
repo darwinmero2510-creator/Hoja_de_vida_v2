@@ -7,7 +7,7 @@ $d = mysqli_fetch_assoc($res_p);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel Administrativo Darwin - Completo</title>
+    <title>Panel Administrativo Darwin - Profesional</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; }
@@ -17,8 +17,7 @@ $d = mysqli_fetch_assoc($res_p);
         input, textarea, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
         button { background: #4a3a35; color: white; border: none; padding: 12px; cursor: pointer; width: 100%; border-radius: 6px; font-weight: bold; transition: 0.3s; }
         button:hover { background: #634f47; }
-        label { font-weight: bold; font-size: 0.85rem; color: #555; }
-        /* Estilo para el botón de cerrar sesión */
+        label { font-weight: bold; font-size: 0.85rem; color: #555; display: block; margin-top: 5px; }
         .btn-salir { float: right; background: #e74c3c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 0.9rem; margin-top: -50px; }
         .btn-salir:hover { background: #c0392b; }
     </style>
@@ -50,8 +49,13 @@ $d = mysqli_fetch_assoc($res_p);
                     <input type="hidden" name="accion" value="nueva_experiencia">
                     <input type="text" name="empresa" placeholder="Empresa" required>
                     <input type="text" name="cargo" placeholder="Cargo" required>
-                    <input type="number" name="f_inicio" placeholder="Año Inicio" required>
-                    <input type="number" name="f_fin" placeholder="Año Fin (Vacio = Presente)">
+                    
+                    <label>Mes/Año Inicio:</label>
+                    <input type="month" name="f_inicio" required>
+                    
+                    <label>Mes/Año Fin (Vacío = Actualidad):</label>
+                    <input type="month" name="f_fin">
+                    
                     <textarea name="desc" placeholder="¿Qué hiciste allí?"></textarea>
                     <button type="submit">Guardar Experiencia</button>
                 </form>
@@ -62,9 +66,15 @@ $d = mysqli_fetch_assoc($res_p);
                 <form action="procesar_admin.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="accion" value="nuevo_curso">
                     <input type="text" name="nombre" placeholder="Nombre del Curso" required>
-                    <input type="number" name="f_inicio" placeholder="Año Inicio" required>
-                    <input type="number" name="f_fin" placeholder="Año Fin" required>
-                    <label>Archivo Certificado:</label><input type="file" name="archivo" required>
+                    
+                    <label>Mes/Año Inicio:</label>
+                    <input type="month" name="f_inicio" required>
+                    
+                    <label>Mes/Año Fin:</label>
+                    <input type="month" name="f_fin" required>
+                    
+                    <label>Archivo Certificado (PDF):</label>
+                    <input type="file" name="archivo" required>
                     <button type="submit">Guardar Curso</button>
                 </form>
             </div>
@@ -107,14 +117,23 @@ $d = mysqli_fetch_assoc($res_p);
     </div>
 
     <script>
+    // Validación mejorada para evitar viajes en el tiempo con formato mes/año
     document.querySelectorAll('form').forEach(form => {
-        form.onsubmit = function(e) {
-            let inicio = this.querySelector('input[name="f_inicio"]');
-            let fin = this.querySelector('input[name="f_fin"]');
-            if(inicio && fin && fin.value !== "" && parseInt(fin.value) < parseInt(inicio.value)) {
-                alert("Error de fecha: El fin no puede ser anterior al inicio.");
-                e.preventDefault();
-                return false;
+        const inputInicio = form.querySelector('input[name="f_inicio"]');
+        const inputFin = form.querySelector('input[name="f_fin"]');
+
+        if (inputInicio && inputFin) {
+            // Actualizar el mínimo permitido del segundo input dinámicamente
+            inputInicio.addEventListener('change', () => {
+                inputFin.min = inputInicio.value;
+            });
+
+            form.onsubmit = function(e) {
+                if (inputInicio.value && inputFin.value && inputFin.value < inputInicio.value) {
+                    alert("¡Error temporal! La fecha de finalización no puede ser anterior a la de inicio.");
+                    e.preventDefault();
+                    return false;
+                }
             }
         }
     });
