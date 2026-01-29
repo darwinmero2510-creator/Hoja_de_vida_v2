@@ -110,27 +110,34 @@ $d = mysqli_fetch_assoc($res_p);
                 <?php endwhile; ?>
             </section>
 
-             <section class="caja-blanca">
+                <section class="caja-blanca">
     <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
     <?php 
     $res_ven = mysqli_query($conexion, "SELECT * FROM venta_garaje"); 
-    if($res_ven):
+    if($res_ven && mysqli_num_rows($res_ven) > 0):
         while($v = mysqli_fetch_assoc($res_ven)): 
-            // Esto evita que salga el error si la columna se llama diferente
-            $nombre = $v['nombre'] ?? $v['nombre_objeto'] ?? 'Producto';
-            $foto = $v['imagen'] ?? $v['foto'] ?? '';
+            // Buscamos 'nombre' que es lo más común en el Admin
+            $nombreReal = $v['nombre'] ?? $v['nombre_objeto'] ?? 'Producto';
+            // Buscamos 'imagen' o 'foto'
+            $fotoReal = $v['imagen'] ?? $v['foto'] ?? '';
     ?>
-            <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+            <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 12px;">
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <?php if(!empty($foto)): ?>
-                        <img src="admin/<?php echo $foto; ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                    <?php if(!empty($fotoReal)): ?>
+                        <img src="admin/<?php echo $fotoReal; ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                    <?php else: ?>
+                        <div style="width: 60px; height: 60px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-camera" style="color: #ccc;"></i>
+                        </div>
                     <?php endif; ?>
-                    <span style="font-weight: 600; color: #4b3621;"><?php echo $nombre; ?></span>
+                    <span style="font-weight: 600; color: #4b3621;"><?php echo $nombreReal; ?></span>
                 </div>
-                <strong style="color: #4b3621;">$<?php echo $v['precio']; ?></strong>
+                <strong style="color: #4b3621; font-size: 1.1rem;">$<?php echo number_format($v['precio'], 2); ?></strong>
             </div>
         <?php endwhile; 
-    endif; ?>
+    else: ?>
+        <p style="text-align: center; color: #999;">Ingresa productos desde el panel para verlos aquí.</p>
+    <?php endif; ?>
 </section>
         </main>
     </div>
