@@ -8,6 +8,7 @@ function obtenerFechaFormateada($fecha) {
     return (count($partes) >= 2) ? $mesesEspañol[$partes[1]] . " " . $partes[0] : $fecha;
 }
 
+// Obtenemos tus datos personales (incluyendo la descripción editable del admin)
 $res_p = mysqli_query($conexion, "SELECT * FROM datos_personales WHERE idperfil=1");
 $d = mysqli_fetch_assoc($res_p);
 ?>
@@ -31,6 +32,7 @@ $d = mysqli_fetch_assoc($res_p);
         .fila-doble { display: flex; gap: 20px; }
         .mitad { flex: 1; }
         .badge { background: #e6d5c3; color: #4b3621; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-left: 10px; }
+        .img-producto { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; background: #eee; }
     </style>
 </head>
 <body>
@@ -47,7 +49,7 @@ $d = mysqli_fetch_assoc($res_p);
             <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
                 <h3 style="font-size: 1rem; margin-bottom: 10px;"><i class="fas fa-user"></i> Sobre Mí</h3>
                 <p style="font-size: 0.85rem; line-height: 1.5; opacity: 0.9;">
-                    <?php echo $d['descripcion_perfil']; ?>
+                    <?php echo !empty($d['descripcion_perfil']) ? $d['descripcion_perfil'] : 'Bienvenido a mi perfil profesional.'; ?>
                 </p>
             </div>
         </aside>
@@ -94,24 +96,41 @@ $d = mysqli_fetch_assoc($res_p);
             </div>
 
             <section class="caja-blanca">
+                <div class="titulo-seccion"><i class="fas fa-laptop-code"></i> Productos Laborales y Académicos</div>
+                <?php 
+                $res_prod = mysqli_query($conexion, "SELECT * FROM productos");
+                if($res_prod):
+                    while($p = mysqli_fetch_assoc($res_prod)): ?>
+                        <div style="margin-bottom: 15px;">
+                            <strong><?php echo $p['nombre_producto']; ?></strong> 
+                            <span class="badge"><?php echo $p['tipo']; ?></span>
+                            <p style="font-size: 0.9rem; margin-top: 5px;"><?php echo $p['descripcion']; ?></p>
+                        </div>
+                    <?php endwhile;
+                endif; ?>
+            </section>
+
+            <section class="caja-blanca">
                 <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
                 <?php 
-                // Intentamos conectar con la tabla correcta
                 $res_ven = mysqli_query($conexion, "SELECT * FROM venta_garaje"); 
                 if($res_ven):
                     while($v = mysqli_fetch_assoc($res_ven)): 
-                        // Verificamos qué nombres de columna tiene tu BD realmente
                         $nombre = $v['nombre'] ?? $v['nombre_objeto'] ?? 'Producto';
-                        $foto = $v['imagen'] ?? $v['foto'] ?? '';
+                        $foto = !empty($v['imagen']) ? $v['imagen'] : (!empty($v['foto']) ? $v['foto'] : '');
                 ?>
-                        <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f9f9f9; padding-bottom: 10px;">
                             <div style="display: flex; align-items: center; gap: 15px;">
                                 <?php if(!empty($foto)): ?>
-                                    <img src="admin/<?php echo $foto; ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                    <img src="admin/<?php echo $foto; ?>" class="img-producto">
+                                <?php else: ?>
+                                    <div class="img-producto" style="display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-camera" style="color: #ccc;"></i>
+                                    </div>
                                 <?php endif; ?>
                                 <span style="font-weight: 600; color: #4b3621;"><?php echo $nombre; ?></span>
                             </div>
-                            <strong style="color: #4b3621;">$<?php echo $v['precio']; ?></strong>
+                            <strong style="color: #4b3621; font-size: 1.1rem;">$<?php echo $v['precio']; ?></strong>
                         </div>
                     <?php endwhile; 
                 endif; ?>
