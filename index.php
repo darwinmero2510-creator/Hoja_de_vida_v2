@@ -36,7 +36,7 @@ $d = mysqli_fetch_assoc($res_p);
     <section id="experiencia">
         <h2><i class="fas fa-briefcase"></i> Experiencia Laboral</h2>
         <?php 
-        $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia ORDER BY f_inicio DESC");
+        $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
         while($exp = mysqli_fetch_assoc($res_exp)): 
         ?>
             <div class="item">
