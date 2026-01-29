@@ -9,7 +9,7 @@ function obtenerFechaFormateada($fecha) {
     return (count($partes) >= 2) ? $mesesEspañol[$partes[1]] . " " . $partes[0] : $fecha;
 }
 
-// Datos Personales
+// Datos Personales - Ajustado a tu tabla real
 $res_p = mysqli_query($conexion, "SELECT * FROM datos_personales WHERE idperfil=1");
 $d = mysqli_fetch_assoc($res_p);
 ?>
@@ -28,11 +28,11 @@ $d = mysqli_fetch_assoc($res_p);
     <div class="hoja-vida">
         
         <aside class="col-izq">
-            <div class="foto-circular" style="background-image: url('<?php echo $d['foto_url']; ?>'); background-size: cover; background-position: center;"></div>
+            <div class="foto-circular" style="background-image: url('<?php echo $d['foto_perfil']; ?>'); background-size: cover; background-position: center;"></div>
             
             <div class="bloque">
                 <div class="titulo-caja">Perfil</div>
-                <p class="descripcion"><?php echo $d['descripcion_perfil']; ?></p>
+                <p class="descripcion"><?php echo $d['perfil_descripcion']; ?></p>
             </div>
 
             <div class="bloque">
@@ -52,9 +52,9 @@ $d = mysqli_fetch_assoc($res_p);
 
         <main class="col-der">
             <header class="encabezado-nombre">
-                <h1><?php echo $d['nombre']; ?><br><?php echo $d['apellido']; ?></h1>
+                <h1><?php echo $d['nombres']; ?><br><?php echo $d['apellidos']; ?></h1>
                 <div class="info-contacto">
-                    <span><i class="fas fa-envelope"></i> <?php echo $d['email']; ?></span>
+                    <span><i class="fas fa-envelope"></i> <?php echo $d['correo']; ?></span>
                     <span><i class="fas fa-phone"></i> <?php echo $d['telefono']; ?></span>
                 </div>
             </header>
@@ -62,7 +62,6 @@ $d = mysqli_fetch_assoc($res_p);
             <section>
                 <div class="titulo-linea"><i class="fas fa-briefcase"></i> Experiencia Laboral</div>
                 <?php 
-                // Usamos la tabla experiencia_laboral y columnas f_inicio/f_fin
                 $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
                 while($exp = mysqli_fetch_assoc($res_exp)): ?>
                     <div class="item-experiencia">
@@ -76,7 +75,6 @@ $d = mysqli_fetch_assoc($res_p);
             <section>
                 <div class="titulo-linea"><i class="fas fa-graduation-cap"></i> Formación y Cursos</div>
                 <?php 
-                // Corregido: 'nombre_curso' e 'institucion' para eliminar el error de la línea 63
                 $res_cur = mysqli_query($conexion, "SELECT * FROM cursos ORDER BY f_inicio DESC");
                 while($cur = mysqli_fetch_assoc($res_cur)): ?>
                     <div class="item-educacion">
