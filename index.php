@@ -30,12 +30,24 @@ $d = mysqli_fetch_assoc($res_p);
 <head>
     <meta charset="UTF-8">
     <title>CV Darwin - Portafolio</title>
-    </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Un poquito de estilo para que se vea "bonito" de nuevo */
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: auto; padding: 20px; }
+        h2 { border-bottom: 2px solid #4a3a35; color: #4a3a35; padding-bottom: 5px; }
+        .item { margin-bottom: 20px; padding: 10px; border-left: 3px solid #4a3a35; background: #fff; }
+        .periodo { color: #666; font-size: 0.9rem; font-weight: bold; }
+        .institucion { color: #4a3a35; font-style: italic; display: block; }
+        a { color: #2980b9; text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
 <body>
 
     <section id="experiencia">
         <h2><i class="fas fa-briefcase"></i> Experiencia Laboral</h2>
         <?php 
+        // Usamos f_inicio y f_fin que son los nombres en HeidiSQL
         $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
         while($exp = mysqli_fetch_assoc($res_exp)): 
         ?>
@@ -56,21 +68,28 @@ $d = mysqli_fetch_assoc($res_p);
     <section id="formacion">
         <h2><i class="fas fa-graduation-cap"></i> Formación y Cursos</h2>
         <?php 
+        // Usamos f_inicio y f_fin para los cursos
         $res_cur = mysqli_query($conexion, "SELECT * FROM cursos ORDER BY f_inicio DESC");
         while($cur = mysqli_fetch_assoc($res_cur)): 
         ?>
             <div class="item">
-                <h3><?php echo $cur['nombre']; ?></h3>
+                <h3><?php echo $cur['nombre_curso']; ?></h3>
+                <span class="institucion"><?php echo $cur['institucion']; ?></span>
+                
                 <p class="periodo">
+                    <i class="far fa-calendar-alt"></i>
                     <?php echo obtenerFechaFormateada($cur['f_inicio']); ?> a 
                     <?php echo obtenerFechaFormateada($cur['f_fin']); ?>
                 </p>
+                
                 <?php if(!empty($cur['archivo_url'])): ?>
-                    <a href="<?php echo $cur['archivo_url']; ?>" target="_blank">Ver Certificado</a>
+                    <a href="<?php echo $cur['archivo_url']; ?>" target="_blank">
+                        <i class="fas fa-file-pdf"></i> Ver Certificado
+                    </a>
                 <?php endif; ?>
             </div>
         <?php endwhile; ?>
     </section>
 
-    </body>
+</body>
 </html>
