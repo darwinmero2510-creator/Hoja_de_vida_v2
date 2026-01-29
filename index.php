@@ -1,6 +1,14 @@
 <?php
 include 'config/conexion.php';
 
+// FUNCIÓN PARA QUE LAS FECHAS SE VEAN COMO "ENERO 2024"
+function obtenerFechaFormateada($fecha) {
+    if (empty($fecha)) return "Actualidad";
+    $mesesEspañol = ["01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio","07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembre"];
+    $partes = explode("-", $fecha);
+    return (count($partes) >= 2) ? $mesesEspañol[$partes[1]] . " " . $partes[0] : $fecha;
+}
+
 // Datos Personales
 $res_p = mysqli_query($conexion, "SELECT * FROM datos_personales WHERE idperfil=1");
 $d = mysqli_fetch_assoc($res_p);
@@ -64,6 +72,9 @@ $d = mysqli_fetch_assoc($res_p);
                 while($exp = mysqli_fetch_assoc($res_exp)): ?>
                     <div style="margin-bottom: 15px;">
                         <strong><?php echo $exp['cargo']; ?></strong> | <?php echo $exp['empresa']; ?>
+                        <p style="margin: 2px 0; font-size: 0.85rem; color: #8b5e3c; font-weight: 600;">
+                            <?php echo obtenerFechaFormateada($exp['f_inicio']); ?> - <?php echo obtenerFechaFormateada($exp['f_fin']); ?>
+                        </p>
                         <p style="margin: 5px 0; font-size: 0.95rem; color: #555;"><?php echo $exp['descripcion']; ?></p>
                     </div>
                 <?php endwhile; ?>
@@ -72,6 +83,14 @@ $d = mysqli_fetch_assoc($res_p);
             <div class="fila-doble">
                 <section class="caja-blanca mitad">
                     <div class="titulo-seccion"><i class="fas fa-graduation-cap"></i> Cursos</div>
+                    <?php 
+                    $res_cur = mysqli_query($conexion, "SELECT * FROM cursos ORDER BY idcurso DESC");
+                    while($c = mysqli_fetch_assoc($res_cur)): ?>
+                        <div style="margin-bottom: 10px; border-left: 3px solid #e6d5c3; padding-left: 10px;">
+                            <strong style="font-size: 0.9rem; display: block;"><?php echo $c['nombre_curso']; ?></strong>
+                            <small style="color: #666;"><?php echo $c['institucion']; ?></small>
+                        </div>
+                    <?php endwhile; ?>
                 </section>
 
                 <section class="caja-blanca mitad">
