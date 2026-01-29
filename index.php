@@ -114,7 +114,7 @@ $d = mysqli_fetch_assoc($res_p);
                 <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
                 <?php 
                 // AJUSTE: Usamos @ para evitar que el error fatal rompa la página si la tabla aún tiene problemas de nombre
-                $res_ven = @mysqli_query($conexion, "SELECT * FROM venta"); 
+                $res_ven = @mysqli_query($conexion, "SELECT * FROM venta_garaje"); 
                 if($res_ven):
                     while($v = mysqli_fetch_assoc($res_ven)): ?>
                         <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
