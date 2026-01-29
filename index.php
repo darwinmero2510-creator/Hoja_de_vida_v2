@@ -1,14 +1,7 @@
 <?php
 include 'config/conexion.php';
 
-function obtenerFechaFormateada($fecha) {
-    if (empty($fecha)) return "Actualidad";
-    $mesesEspañol = ["01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio","07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembre"];
-    $partes = explode("-", $fecha);
-    return (count($partes) >= 2) ? $mesesEspañol[$partes[1]] . " " . $partes[0] : $fecha;
-}
-
-// Obtenemos tus datos personales (incluyendo la descripción editable del admin)
+// Ya no formateamos la fecha a texto para que se mantenga numérica (ej: 2025-01)
 $res_p = mysqli_query($conexion, "SELECT * FROM datos_personales WHERE idperfil=1");
 $d = mysqli_fetch_assoc($res_p);
 ?>
@@ -33,6 +26,8 @@ $d = mysqli_fetch_assoc($res_p);
         .mitad { flex: 1; }
         .badge { background: #e6d5c3; color: #4b3621; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-left: 10px; }
         .img-producto { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; background: #eee; }
+        .btn-pdf { color: #d9534f; text-decoration: none; font-size: 1.1rem; transition: 0.3s; }
+        .btn-pdf:hover { color: #c9302c; transform: scale(1.2); }
     </style>
 </head>
 <body>
@@ -49,7 +44,7 @@ $d = mysqli_fetch_assoc($res_p);
             <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
                 <h3 style="font-size: 1rem; margin-bottom: 10px;"><i class="fas fa-user"></i> Sobre Mí</h3>
                 <p style="font-size: 0.85rem; line-height: 1.5; opacity: 0.9;">
-                    <?php echo !empty($d['descripcion_perfil']) ? $d['descripcion_perfil'] : 'Bienvenido a mi perfil profesional.'; ?>
+                    <?php echo !empty($d['perfil_descripcion']) ? $d['perfil_descripcion'] : 'Escribe tu descripción en el panel de administración.'; ?>
                 </p>
             </div>
         </aside>
@@ -63,7 +58,7 @@ $d = mysqli_fetch_assoc($res_p);
                     <div style="margin-bottom: 15px;">
                         <strong><?php echo $exp['cargo']; ?></strong> | <?php echo $exp['empresa']; ?>
                         <p style="color: #8b5e3c; font-size: 0.85rem; font-weight: 600; margin: 2px 0;">
-                            <?php echo obtenerFechaFormateada($exp['f_inicio']); ?> - <?php echo obtenerFechaFormateada($exp['f_fin']); ?>
+                            <?php echo $exp['f_inicio']; ?> - <?php echo ($exp['f_fin'] ?: 'Actualidad'); ?>
                         </p>
                         <p style="font-size: 0.9rem; color: #555;"><?php echo $exp['descripcion']; ?></p>
                     </div>
@@ -75,10 +70,17 @@ $d = mysqli_fetch_assoc($res_p);
                     <div class="titulo-seccion"><i class="fas fa-graduation-cap"></i> Cursos</div>
                     <?php 
                     $res_cur = mysqli_query($conexion, "SELECT * FROM cursos");
-                    while($c = mysqli_fetch_assoc($res_cur)): ?>
-                        <div style="margin-bottom: 12px;">
-                            <strong style="display:block;"><?php echo $c['nombre_curso']; ?></strong>
-                            <small><?php echo obtenerFechaFormateada($c['fecha']); ?></small>
+                    while($c = mysqli_fetch_assoc($res_cur)): 
+                        $archivoC = $c['archivo'] ?? $c['pdf'] ?? '';
+                    ?>
+                        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong style="display:block;"><?php echo $c['nombre_curso']; ?></strong>
+                                <small><?php echo $c['fecha']; ?></small>
+                            </div>
+                            <?php if(!empty($archivoC)): ?>
+                                <a href="admin/<?php echo $archivoC; ?>" target="_blank" class="btn-pdf"><i class="fas fa-file-pdf"></i></a>
+                            <?php endif; ?>
                         </div>
                     <?php endwhile; ?>
                 </section>
@@ -87,9 +89,14 @@ $d = mysqli_fetch_assoc($res_p);
                     <div class="titulo-seccion"><i class="fas fa-award"></i> Reconocimientos</div>
                     <?php 
                     $res_rec = mysqli_query($conexion, "SELECT * FROM reconocimientos");
-                    while($r = mysqli_fetch_assoc($res_rec)): ?>
-                        <div style="margin-bottom: 10px;">
+                    while($r = mysqli_fetch_assoc($res_rec)): 
+                        $archivoR = $r['archivo'] ?? $r['pdf'] ?? '';
+                    ?>
+                        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
                             <strong><?php echo $r['titulo']; ?></strong>
+                            <?php if(!empty($archivoR)): ?>
+                                <a href="admin/<?php echo $archivoR; ?>" target="_blank" class="btn-pdf"><i class="fas fa-file-pdf"></i></a>
+                            <?php endif; ?>
                         </div>
                     <?php endwhile; ?>
                 </section>
