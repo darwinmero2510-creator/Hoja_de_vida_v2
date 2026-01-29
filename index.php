@@ -46,7 +46,7 @@ function e($txt){
         </div>
 
         <h1 style="text-align:center;font-size:1.5rem;">
-            <?php echo e($d['nombres']." ".$d['apellidos']); ?>
+            <?php echo e($d['nombre']." ".$d['apellidos']); ?>
         </h1>
 
         <p><i class="fas fa-envelope"></i> <?php echo e($d['correo']); ?></p>
