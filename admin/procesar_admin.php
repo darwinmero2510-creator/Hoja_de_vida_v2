@@ -28,7 +28,7 @@ if ($acc == 'nueva_experiencia') {
     $i = (int)$_POST['f_inicio']; $f = (int)$_POST['f_fin'];
     if ($f >= $i || $_POST['f_fin'] == "") {
         $e = $_POST['empresa']; $c = $_POST['cargo']; $d = $_POST['desc'];
-        mysqli_query($conexion, "INSERT INTO experiencia_laboral (idperfil, empresa, cargo, fecha_inicio, fecha_fin, descripcion) VALUES (1, '$e', '$c', '$i', '$f', '$d')");
+        mysqli_query($conexion, "INSERT INTO experiencia_laboral (idperfil, empresa, cargo, f_inicio, f_fin, descripcion) VALUES (1, '$e', '$c', '$i', '$f', '$d')");
     }
 }
 
@@ -37,7 +37,7 @@ if ($acc == 'nuevo_curso') {
     if ($f >= $i) {
         $n = $_POST['nombre']; 
         $r = subir($_FILES['archivo']); // Ahora $r será un link de Cloudinary
-        mysqli_query($conexion, "INSERT INTO cursos (idperfil, nombre_curso, fecha_inicio, fecha_fin, archivo_url) VALUES (1, '$n', '$i', '$f', '$r')");
+        mysqli_query($conexion, "INSERT INTO cursos (idperfil, nombre_curso, f_inicio, f_fin, archivo_url) VALUES (1, '$n', '$i', '$f', '$r')");
     }
 }
 
