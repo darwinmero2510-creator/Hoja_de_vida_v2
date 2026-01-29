@@ -22,7 +22,7 @@ $d = mysqli_fetch_assoc($res_p);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* SCROLL ACTIVO PARA VER TODO */
-        html, body { margin: 0; padding: 0; width: 100%; min-height: 100%; background-color: #f4ece2; }
+        html, body { margin: 0; padding: 0; width: 100%; min-height: 100%; background-color: #f4ece2; font-family: 'Poppins', sans-serif; }
         .hoja-vida { display: flex; width: 100vw; min-height: 100vh; }
         .col-izq { width: 320px; background-color: #4b3621; color: white; padding: 40px 20px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; }
         .col-der { flex-grow: 1; padding: 40px; overflow-y: auto; }
@@ -47,6 +47,13 @@ $d = mysqli_fetch_assoc($res_p);
         </aside>
 
         <main class="col-der">
+            <section class="caja-blanca">
+                <div class="titulo-seccion"><i class="fas fa-user"></i> Sobre Mí</div>
+                <p style="font-size: 0.95rem; color: #555; line-height: 1.6; margin: 0;">
+                    <?php echo !empty($d['descripcion_perfil']) ? $d['descripcion_perfil'] : 'Bienvenido a mi portafolio profesional.'; ?>
+                </p>
+            </section>
+
             <section class="caja-blanca">
                 <div class="titulo-seccion"><i class="fas fa-briefcase"></i> Experiencia Laboral</div>
                 <?php 
@@ -110,35 +117,33 @@ $d = mysqli_fetch_assoc($res_p);
                 <?php endwhile; ?>
             </section>
 
-                <section class="caja-blanca">
-    <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
-    <?php 
-    $res_ven = mysqli_query($conexion, "SELECT * FROM venta_garaje"); 
-    if($res_ven && mysqli_num_rows($res_ven) > 0):
-        while($v = mysqli_fetch_assoc($res_ven)): 
-            // Buscamos 'nombre' que es lo más común en el Admin
-            $nombreReal = $v['nombre'] ?? $v['nombre_objeto'] ?? 'Producto';
-            // Buscamos 'imagen' o 'foto'
-            $fotoReal = $v['imagen'] ?? $v['foto'] ?? '';
-    ?>
-            <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 12px;">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <?php if(!empty($fotoReal)): ?>
-                        <img src="admin/<?php echo $fotoReal; ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
-                    <?php else: ?>
-                        <div style="width: 60px; height: 60px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-camera" style="color: #ccc;"></i>
+            <section class="caja-blanca">
+                <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
+                <?php 
+                $res_ven = mysqli_query($conexion, "SELECT * FROM venta_garaje"); 
+                if($res_ven && mysqli_num_rows($res_ven) > 0):
+                    while($v = mysqli_fetch_assoc($res_ven)): 
+                        $nombreReal = $v['nombre'] ?? $v['nombre_objeto'] ?? 'Producto';
+                        $fotoReal = $v['imagen'] ?? $v['foto'] ?? '';
+                ?>
+                        <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 12px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <?php if(!empty($fotoReal)): ?>
+                                    <img src="admin/<?php echo $fotoReal; ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;" onerror="this.src='https://via.placeholder.com/60?text=Error'">
+                                <?php else: ?>
+                                    <div style="width: 60px; height: 60px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-camera" style="color: #ccc;"></i>
+                                    </div>
+                                <?php endif; ?>
+                                <span style="font-weight: 600; color: #4b3621;"><?php echo $nombreReal; ?></span>
+                            </div>
+                            <strong style="color: #4b3621; font-size: 1.1rem;">$<?php echo number_format($v['precio'], 0, ',', '.'); ?></strong>
                         </div>
-                    <?php endif; ?>
-                    <span style="font-weight: 600; color: #4b3621;"><?php echo $nombreReal; ?></span>
-                </div>
-                <strong style="color: #4b3621; font-size: 1.1rem;">$<?php echo number_format($v['precio'], 2); ?></strong>
-            </div>
-        <?php endwhile; 
-    else: ?>
-        <p style="text-align: center; color: #999;">Ingresa productos desde el panel para verlos aquí.</p>
-    <?php endif; ?>
-</section>
+                    <?php endwhile; 
+                else: ?>
+                    <p style="text-align: center; color: #999;">Ingresa productos desde el panel para verlos aquí.</p>
+                <?php endif; ?>
+            </section>
         </main>
     </div>
 </body>
