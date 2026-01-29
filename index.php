@@ -18,26 +18,31 @@ $d = mysqli_fetch_assoc($res_p);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200"> 
     <title>CV Darwin - Portafolio</title>
     <link rel="stylesheet" href="public/estilo.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="body-cv">
 
-    <div class="hoja-vida">
+    <div class="hoja-vida-full">
         <aside class="col-izq">
-            <div class="foto-circular" style="background-image: url('<?php echo $d['foto_perfil']; ?>');"></div>
-            
-            <h1 class="nombre-sidebar"><?php echo $d['nombres']; ?><br><?php echo $d['apellidos']; ?></h1>
-            
-            <div class="contacto-sidebar">
-                <p><i class="fas fa-envelope"></i> <?php echo $d['correo']; ?></p>
-                <p><i class="fas fa-phone"></i> <?php echo $d['telefono']; ?></p>
+            <div class="foto-perfil-container">
+                <div class="foto-circular" style="background-image: url('<?php echo $d['foto_perfil']; ?>');"></div>
             </div>
+            
+            <div class="bloque-datos-izq">
+                <h1 class="nombre-sidebar"><?php echo $d['nombres']; ?><br><?php echo $d['apellidos']; ?></h1>
+                
+                <div class="contacto-sidebar">
+                    <p><i class="fas fa-envelope"></i> <?php echo $d['correo']; ?></p>
+                    <p><i class="fas fa-phone"></i> <?php echo $d['telefono']; ?></p>
+                </div>
 
-            <hr class="separador">
-            <p class="frase-footer">Hoja de vida realizada con esfuerzo, sudor y casi lagrimas</p>
+                <hr class="separador">
+                <p class="frase-footer">Hoja de vida realizada con esfuerzo, sudor y casi lagrimas</p>
+            </div>
         </aside>
 
         <main class="col-der">
@@ -55,11 +60,11 @@ $d = mysqli_fetch_assoc($res_p);
             </section>
 
             <div class="fila-doble">
-                <section class="caja-blanca">
+                <section class="caja-blanca mitad">
                     <div class="titulo-seccion"><i class="fas fa-graduation-cap"></i> Cursos</div>
-                    </section>
+                </section>
 
-                <section class="caja-blanca">
+                <section class="caja-blanca mitad">
                     <div class="titulo-seccion"><i class="fas fa-award"></i> Reconocimientos</div>
                 </section>
             </div>
