@@ -1,9 +1,12 @@
 <?php
 include 'config/conexion.php';
 
-// Ya no formateamos la fecha a texto para que se mantenga numérica (ej: 2025-01)
 $res_p = mysqli_query($conexion, "SELECT * FROM datos_personales WHERE idperfil=1");
 $d = mysqli_fetch_assoc($res_p);
+
+function e($txt){
+    return htmlspecialchars($txt ?? '', ENT_QUOTES, 'UTF-8');
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,135 +17,155 @@ $d = mysqli_fetch_assoc($res_p);
     <link rel="stylesheet" href="public/estilo.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-        html, body { margin: 0; padding: 0; width: 100%; min-height: 100%; background-color: #f4ece2; font-family: 'Poppins', sans-serif; }
-        .hoja-vida { display: flex; width: 100vw; min-height: 100vh; }
-        .col-izq { width: 320px; background-color: #4b3621; color: white; padding: 40px 20px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
-        .col-der { flex-grow: 1; padding: 40px; overflow-y: auto; height: 100vh; box-sizing: border-box; }
-        .foto-circular { width: 160px; height: 160px; border-radius: 50%; border: 4px solid #f4ece2; margin: 0 auto 20px; background-size: cover; background-position: center; }
-        .caja-blanca { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-        .titulo-seccion { font-weight: 600; color: #4b3621; margin-bottom: 15px; border-bottom: 2px solid #e6d5c3; padding-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-        .fila-doble { display: flex; gap: 20px; }
-        .mitad { flex: 1; }
-        .badge { background: #e6d5c3; color: #4b3621; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-left: 10px; }
-        .img-producto { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; background: #eee; }
-        .btn-pdf { color: #d9534f; text-decoration: none; font-size: 1.1rem; transition: 0.3s; }
-        .btn-pdf:hover { color: #c9302c; transform: scale(1.2); }
+        html, body { margin:0; padding:0; width:100%; min-height:100%; background:#f4ece2; font-family:'Poppins',sans-serif;}
+        .hoja-vida { display:flex; width:100vw; min-height:100vh;}
+        .col-izq { width:320px; background:#4b3621; color:white; padding:40px 20px; position:sticky; top:0; height:100vh; overflow-y:auto;}
+        .col-der { flex-grow:1; padding:40px; overflow-y:auto; height:100vh; box-sizing:border-box;}
+        .foto-circular { width:160px; height:160px; border-radius:50%; border:4px solid #f4ece2; margin:0 auto 20px; background-size:cover; background-position:center;}
+        .caja-blanca { background:white; border-radius:12px; padding:25px; margin-bottom:25px; box-shadow:0 4px 10px rgba(0,0,0,0.08);}
+        .titulo-seccion { font-weight:600; color:#4b3621; margin-bottom:15px; border-bottom:2px solid #e6d5c3; padding-bottom:8px; display:flex; align-items:center; gap:10px;}
+        .fila-doble { display:flex; gap:20px;}
+        .mitad { flex:1;}
+        .badge { background:#e6d5c3; color:#4b3621; padding:2px 8px; border-radius:4px; font-size:.75rem; font-weight:bold; margin-left:10px;}
+        .img-producto { width:60px; height:60px; object-fit:cover; border-radius:8px; background:#eee;}
+        .btn-pdf { color:#d9534f; font-size:1.1rem;}
     </style>
 </head>
+
 <body>
 
-    <div class="hoja-vida">
-        <aside class="col-izq">
-            <div class="foto-circular" style="background-image: url('<?php echo $d['foto_perfil']; ?>');"></div>
-            <h1 style="text-align:center; font-size: 1.5rem;"><?php echo $d['nombres'] . " " . $d['apellidos']; ?></h1>
-            <div style="font-size: 0.9rem; margin-top: 20px;">
-                <p><i class="fas fa-envelope"></i> <?php echo $d['correo']; ?></p>
-                <p><i class="fas fa-phone"></i> <?php echo $d['telefono']; ?></p>
-            </div>
-            
-            <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
-                <h3 style="font-size: 1rem; margin-bottom: 10px;"><i class="fas fa-user"></i> Sobre Mí</h3>
-                <p style="font-size: 0.85rem; line-height: 1.5; opacity: 0.9;">
-                    <?php echo !empty($d['perfil_descripcion']) ? $d['perfil_descripcion'] : 'Escribe tu descripción en el panel de administración.'; ?>
-                </p>
-            </div>
-        </aside>
+<div class="hoja-vida">
 
-        <main class="col-der">
-            <section class="caja-blanca">
-                <div class="titulo-seccion"><i class="fas fa-briefcase"></i> Experiencia Laboral</div>
-                <?php 
-                $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
-                while($exp = mysqli_fetch_assoc($res_exp)): ?>
-                    <div style="margin-bottom: 15px;">
-                        <strong><?php echo $exp['cargo']; ?></strong> | <?php echo $exp['empresa']; ?>
-                        <p style="color: #8b5e3c; font-size: 0.85rem; font-weight: 600; margin: 2px 0;">
-                            <?php echo $exp['f_inicio']; ?> - <?php echo ($exp['f_fin'] ?: 'Actualidad'); ?>
-                        </p>
-                        <p style="font-size: 0.9rem; color: #555;"><?php echo $exp['descripcion']; ?></p>
-                    </div>
+    <!-- ================= IZQUIERDA ================= -->
+    <aside class="col-izq">
+
+        <div class="foto-circular"
+             style="background-image:url('<?php echo e($d['foto_perfil']); ?>');">
+        </div>
+
+        <h1 style="text-align:center;font-size:1.5rem;">
+            <?php echo e($d['nombres']." ".$d['apellidos']); ?>
+        </h1>
+
+        <p><i class="fas fa-envelope"></i> <?php echo e($d['correo']); ?></p>
+        <p><i class="fas fa-phone"></i> <?php echo e($d['telefono']); ?></p>
+
+        <h3>Sobre mí</h3>
+        <p><?php echo e($d['perfil_descripcion']); ?></p>
+
+    </aside>
+
+
+    <!-- ================= DERECHA ================= -->
+    <main class="col-der">
+
+        <!-- EXPERIENCIA -->
+        <section class="caja-blanca">
+            <div class="titulo-seccion"><i class="fas fa-briefcase"></i> Experiencia</div>
+
+            <?php
+            $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
+            while($exp = mysqli_fetch_assoc($res_exp)):
+            ?>
+                <div>
+                    <strong><?php echo e($exp['cargo']); ?></strong> | <?php echo e($exp['empresa']); ?>
+                    <p><?php echo e($exp['f_inicio']); ?> - <?php echo e($exp['f_fin'] ?: 'Actualidad'); ?></p>
+                    <p><?php echo e($exp['descripcion']); ?></p>
+                </div>
+            <?php endwhile; ?>
+        </section>
+
+
+        <!-- CURSOS + RECONOCIMIENTOS -->
+        <div class="fila-doble">
+
+            <section class="caja-blanca mitad">
+                <div class="titulo-seccion">Cursos</div>
+
+                <?php
+                $res_cur = mysqli_query($conexion, "SELECT * FROM cursos");
+                while($c = mysqli_fetch_assoc($res_cur)):
+                    $archivo = $c['archivo'] ?? $c['pdf'] ?? '';
+                ?>
+                    <p>
+                        <?php echo e($c['nombre_curso']); ?>
+                        <?php if($archivo): ?>
+                            <a href="<?php echo e($archivo); ?>" target="_blank" class="btn-pdf">📄</a>
+                        <?php endif; ?>
+                    </p>
                 <?php endwhile; ?>
             </section>
 
-            <div class="fila-doble">
-                <section class="caja-blanca mitad">
-                    <div class="titulo-seccion"><i class="fas fa-graduation-cap"></i> Cursos</div>
-                    <?php 
-                    $res_cur = mysqli_query($conexion, "SELECT * FROM cursos");
-                    while($c = mysqli_fetch_assoc($res_cur)): 
-                        $archivoC = $c['archivo'] ?? $c['pdf'] ?? '';
-                    ?>
-                        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <strong style="display:block;"><?php echo $c['nombre_curso']; ?></strong>
-                                <small><?php echo $c['fecha']; ?></small>
-                            </div>
-                            <?php if(!empty($archivoC)): ?>
-                                <a href="admin/<?php echo $archivoC; ?>" target="_blank" class="btn-pdf"><i class="fas fa-file-pdf"></i></a>
-                            <?php endif; ?>
-                        </div>
-                    <?php endwhile; ?>
-                </section>
 
-                <section class="caja-blanca mitad">
-                    <div class="titulo-seccion"><i class="fas fa-award"></i> Reconocimientos</div>
-                    <?php 
-                    $res_rec = mysqli_query($conexion, "SELECT * FROM reconocimientos");
-                    while($r = mysqli_fetch_assoc($res_rec)): 
-                        $archivoR = $r['archivo'] ?? $r['pdf'] ?? '';
-                    ?>
-                        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                            <strong><?php echo $r['titulo']; ?></strong>
-                            <?php if(!empty($archivoR)): ?>
-                                <a href="admin/<?php echo $archivoR; ?>" target="_blank" class="btn-pdf"><i class="fas fa-file-pdf"></i></a>
-                            <?php endif; ?>
-                        </div>
-                    <?php endwhile; ?>
-                </section>
-            </div>
+            <section class="caja-blanca mitad">
+                <div class="titulo-seccion">Reconocimientos</div>
 
-            <section class="caja-blanca">
-                <div class="titulo-seccion"><i class="fas fa-laptop-code"></i> Productos Laborales y Académicos</div>
-                <?php 
-                $res_prod = mysqli_query($conexion, "SELECT * FROM productos");
-                if($res_prod):
-                    while($p = mysqli_fetch_assoc($res_prod)): ?>
-                        <div style="margin-bottom: 15px;">
-                            <strong><?php echo $p['nombre_producto']; ?></strong> 
-                            <span class="badge"><?php echo $p['tipo']; ?></span>
-                            <p style="font-size: 0.9rem; margin-top: 5px;"><?php echo $p['descripcion']; ?></p>
-                        </div>
-                    <?php endwhile;
-                endif; ?>
-            </section>
-
-            <section class="caja-blanca">
-                <div class="titulo-seccion"><i class="fas fa-shopping-cart"></i> Venta de Garaje</div>
-                <?php 
-                $res_ven = mysqli_query($conexion, "SELECT * FROM venta_garaje"); 
-                if($res_ven):
-                    while($v = mysqli_fetch_assoc($res_ven)): 
-                        $nombre = $v['nombre'] ?? $v['nombre_objeto'] ?? 'Producto';
-                        $foto = !empty($v['imagen']) ? $v['imagen'] : (!empty($v['foto']) ? $v['foto'] : '');
+                <?php
+                $res_rec = mysqli_query($conexion, "SELECT * FROM reconocimientos");
+                while($r = mysqli_fetch_assoc($res_rec)):
+                    $archivo = $r['archivo'] ?? $r['pdf'] ?? '';
                 ?>
-                        <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f9f9f9; padding-bottom: 10px;">
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <?php if(!empty($foto)): ?>
-                                    <img src="admin/<?php echo $foto; ?>" class="img-producto">
-                                <?php else: ?>
-                                    <div class="img-producto" style="display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-camera" style="color: #ccc;"></i>
-                                    </div>
-                                <?php endif; ?>
-                                <span style="font-weight: 600; color: #4b3621;"><?php echo $nombre; ?></span>
-                            </div>
-                            <strong style="color: #4b3621; font-size: 1.1rem;">$<?php echo $v['precio']; ?></strong>
-                        </div>
-                    <?php endwhile; 
-                endif; ?>
+                    <p>
+                        <?php echo e($r['titulo']); ?>
+                        <?php if($archivo): ?>
+                            <a href="<?php echo e($archivo); ?>" target="_blank" class="btn-pdf">📄</a>
+                        <?php endif; ?>
+                    </p>
+                <?php endwhile; ?>
             </section>
-        </main>
-    </div>
+
+        </div>
+
+
+        <!-- PRODUCTOS -->
+        <section class="caja-blanca">
+            <div class="titulo-seccion">Productos</div>
+
+            <?php
+            $res_prod = mysqli_query($conexion, "SELECT * FROM productos");
+            while($p = mysqli_fetch_assoc($res_prod)):
+            ?>
+                <p>
+                    <strong><?php echo e($p['nombre_producto']); ?></strong>
+                    <span class="badge"><?php echo e($p['tipo']); ?></span>
+                </p>
+            <?php endwhile; ?>
+        </section>
+
+
+        <!-- VENTA DE GARAJE (TODO ARREGLADO) -->
+        <section class="caja-blanca">
+            <div class="titulo-seccion">Venta de Garaje</div>
+
+            <?php
+            $res_ven = mysqli_query($conexion, "SELECT * FROM venta_garaje");
+
+            while($v = mysqli_fetch_assoc($res_ven)):
+
+                $nombre = $v['nombre_producto'] ?? $v['nombre'] ?? $v['nombre_objeto'] ?? 'Producto';
+                $foto   = $v['imagen'] ?? $v['foto'] ?? '';
+                $precio = number_format((float)$v['precio'], 2);
+            ?>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <?php if($foto): ?>
+                            <img src="<?php echo e($foto); ?>" class="img-producto">
+                        <?php endif; ?>
+                        <?php echo e($nombre); ?>
+                    </div>
+
+                    <strong>$<?php echo $precio; ?></strong>
+                </div>
+
+            <?php endwhile; ?>
+        </section>
+
+    </main>
+</div>
+
 </body>
 </html>
