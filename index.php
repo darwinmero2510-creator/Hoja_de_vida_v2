@@ -18,15 +18,22 @@ $d = mysqli_fetch_assoc($res_p);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200"> 
     <title>CV Darwin - Portafolio</title>
     <link rel="stylesheet" href="public/estilo.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Ajuste de emergencia para PC: fuerza el ancho total */
+        body { margin: 0; padding: 0; }
+        .hoja-vida-full { display: flex; width: 100vw; min-height: 100vh; }
+        .col-izq { width: 300px; flex-shrink: 0; }
+        .col-der { flex-grow: 1; }
+    </style>
 </head>
 <body class="body-cv">
 
-    <div class="hoja-vida-full">
+    <div class="hoja-vida">
+        
         <aside class="col-izq">
             <div class="foto-perfil-container">
                 <div class="foto-circular" style="background-image: url('<?php echo $d['foto_perfil']; ?>');"></div>
