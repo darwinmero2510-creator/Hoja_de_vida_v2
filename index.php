@@ -68,6 +68,12 @@ function e($txt){
             <?php
             $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
             while($exp = mysqli_fetch_assoc($res_exp)):
+                $inicio = date('m/Y', strtotime($exp['f_inicio']));
+                if (empty($exp['f_fin'])) {
+            $fin = 'Actualidad';
+        } else {
+            $fin = date('m/Y', strtotime($exp['f_fin']));
+        }
             ?>
                 <div>
                     <strong><?php echo e($exp['cargo']); ?></strong> | <?php echo e($exp['empresa']); ?>
