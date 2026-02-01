@@ -25,10 +25,42 @@ function subir($f) {
 }
 
 if ($acc == 'nueva_experiencia') {
-    $i = (int)$_POST['f_inicio']; $f = (int)$_POST['f_fin'];
-    if ($f >= $i || $_POST['f_fin'] == "") {
-        $e = $_POST['empresa']; $c = $_POST['cargo']; $d = $_POST['desc'];
-        mysqli_query($conexion, "INSERT INTO experiencia_laboral (idperfil, empresa, cargo, f_inicio, f_fin, descripcion) VALUES (1, '$e', '$c', '$i', '$f', '$d')");
+
+    
+    $e = $_POST['empresa'];
+    $c = $_POST['cargo'];
+    $d = $_POST['desc'];
+
+    
+    $f_inicio = $_POST['f_inicio'] . '-01'; 
+
+    if (!empty($_POST['f_fin'])) {
+        $f_fin = $_POST['f_fin'] . '-01';
+    } else {
+        $f_fin = null; 
+    }
+
+    if ($f_fin === null || strtotime($f_fin) >= strtotime($f_inicio)) {
+
+        $stmt = $conexion->prepare("
+            INSERT INTO experiencia_laboral
+            (idperfil, empresa, cargo, f_inicio, f_fin, descripcion)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ");
+
+        $idperfil = 1;
+
+        $stmt->bind_param(
+            "isssss",
+            $idperfil,
+            $e,
+            $c,
+            $f_inicio,
+            $f_fin,
+            $d
+        );
+
+        $stmt->execute();
     }
 }
 
