@@ -76,6 +76,7 @@ function mesAnio($fecha) {
     <p><i class="fas fa-birthday-cake"></i> <?php echo e($d['fecha_nacimiento']); ?></p>
     <p><i class="fas fa-user-friends"></i> <?php echo e($d['estado_civil']); ?></p>
     <p><i class="fas fa-flag"></i> <?php echo e($d['nacionalidad']); ?></p>
+    <p><i class="fas fa-venus-mars"></i> <?php echo e($d['sexo']); ?></p>
     <p><i class="fas fa-map-marker-alt"></i> <?php echo e($d['lugar_nacimiento']); ?></p>
     <p><i class="fas fa-id-card"></i> <?php echo e($d['numero_cedula']); ?></p>
     <p><i class="fas fa-home"></i> <?php echo e($d['direccion']); ?></p>
