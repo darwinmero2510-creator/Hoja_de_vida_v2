@@ -254,34 +254,34 @@ function mesAnio($fecha) {
 
 
 
-        <!-- VENTA DE GARAJE (TODO ARREGLADO) -->
+        <!-- VENTA DE GARAJE -->
         <section class="caja-blanca">
-            <div class="titulo-seccion">Venta de Garaje</div>
+    <div class="titulo-seccion">Venta de Garaje</div>
 
-            <?php
-            $res_ven = mysqli_query($conexion, "SELECT * FROM venta_garaje");
+    <?php
+    $res_ven = mysqli_query($conexion, "SELECT * FROM venta_garaje");
 
-            while($v = mysqli_fetch_assoc($res_ven)):
+    while($v = mysqli_fetch_assoc($res_ven)):
+        $nombre = $v['articulo'] ?? 'Producto';
+        $foto   = $v['foto_url'] ?? '';
+        $precio = number_format((float)$v['precio'], 2);
+    ?>
 
-                $nombre = $v['nombre_producto'] ?? $v['nombre'] ?? $v['nombre_objeto'] ?? 'Producto';
-                $foto   = $v['imagen'] ?? $v['foto'] ?? '';
-                $precio = number_format((float)$v['precio'], 2);
-            ?>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
 
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div style="display:flex;gap:10px;align-items:center;">
+                <?php if($foto): ?>
+                    <img src="<?php echo htmlspecialchars($foto); ?>" class="img-producto">
+                <?php endif; ?>
+                <?php echo htmlspecialchars($nombre); ?>
+            </div>
 
-                    <div style="display:flex;gap:10px;align-items:center;">
-                        <?php if($foto): ?>
-                            <img src="<?php echo e($foto); ?>" class="img-producto">
-                        <?php endif; ?>
-                        <?php echo e($nombre); ?>
-                    </div>
+            <strong>$<?php echo $precio; ?></strong>
+        </div>
 
-                    <strong>$<?php echo $precio; ?></strong>
-                </div>
+    <?php endwhile; ?>
+</section>
 
-            <?php endwhile; ?>
-        </section>
 
     </main>
 </div>
