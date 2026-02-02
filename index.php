@@ -61,21 +61,30 @@ function mesAnio($fecha) {
     <!-- ================= IZQUIERDA ================= -->
     <aside class="col-izq">
 
-        <div class="foto-circular"
-             style="background-image:url('<?php echo e($d['foto_perfil']); ?>');">
-        </div>
+    <div class="foto-circular"
+         style="background-image:url('<?php echo e($d['foto_perfil']); ?>');">
+    </div>
 
-        <h1 style="text-align:center;font-size:1.5rem;">
-            <?php echo e($d['nombre']); ?>
-        </h1>
+    <h1 style="text-align:center;font-size:1.5rem;">
+        <?php echo e($d['nombre']); ?>
+    </h1>
 
-        <p><i class="fas fa-envelope"></i> <?php echo e($d['correo']); ?></p>
-        <p><i class="fas fa-phone"></i> <?php echo e($d['telefono']); ?></p>
+    <p><i class="fas fa-envelope"></i> <?php echo e($d['correo']); ?></p>
+    <p><i class="fas fa-phone"></i> <?php echo e($d['telefono']); ?></p>
 
-        <h3>Sobre mí</h3>
-        <p><?php echo e($d['perfil_descripcion']); ?></p>
+    <!-- NUEVOS CAMPOS -->
+    <p><i class="fas fa-birthday-cake"></i> <?php echo e($d['fecha_nacimiento']); ?></p>
+    <p><i class="fas fa-user-friends"></i> <?php echo e($d['estado_civil']); ?></p>
+    <p><i class="fas fa-flag"></i> <?php echo e($d['nacionalidad']); ?></p>
+    <p><i class="fas fa-map-marker-alt"></i> <?php echo e($d['lugar_nacimiento']); ?></p>
+    <p><i class="fas fa-id-card"></i> <?php echo e($d['numero_cedula']); ?></p>
+    <p><i class="fas fa-home"></i> <?php echo e($d['direccion']); ?></p>
 
-    </aside>
+    <h3>Sobre mí</h3>
+    <p><?php echo e($d['perfil_descripcion']); ?></p>
+
+</aside>
+>
 
 
     <!-- ================= DERECHA ================= -->
