@@ -281,27 +281,29 @@ function mesAnio($fecha) {
 
     <?php endwhile; ?>
 </section>
-<div style="text-align:center; margin: 30px 0;">
-    <button id="btnDescargarPDF" class="btn-pdf">
-        Descargar PDF
-    </button>
+<!-- Botón Descargar PDF -->
+        <div style="text-align:center; margin: 30px 0;">
+            <button id="btnDescargarPDF" class="btn-pdf">
+                Descargar PDF
+            </button>
+        </div>
+    </div>
 </div>
+
+<!-- Librería html2pdf.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-        <script>
+
+<!-- Script para descargar PDF -->
+<script>
 document.getElementById("btnDescargarPDF").addEventListener("click", function() {
-    // Seleccionamos el contenedor completo de la hoja de vida
     var elemento = document.querySelector(".hoja-vida");
-
-    // Configuración del PDF
     var opciones = {
-        margin:       0.5, // margen en pulgadas
-        filename:     'Hoja_de_Vida_Darwin.pdf', // nombre del archivo
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 }, // mayor resolución
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        margin: 0.5,
+        filename: 'Hoja_de_Vida_Darwin.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
-
-    // Generar y descargar PDF
     html2pdf().set(opciones).from(elemento).save();
 });
 </script>
