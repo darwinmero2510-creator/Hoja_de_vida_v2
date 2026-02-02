@@ -137,6 +137,10 @@ function e($txt){
                     <strong><?php echo e($p['nombre_producto']); ?></strong>
                     <span class="badge"><?php echo e($p['tipo']); ?></span>
                 </p>
+                <p>
+                    <?php echo e($p['descripcion']); ?>
+                </p>
+
             <?php endwhile; ?>
         </section>
 
