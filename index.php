@@ -101,11 +101,11 @@ function e($txt){
 
             <div class="fechas">
                 <?php if (!empty($c['f_inicio'])): ?>
-                    <span>📅 <?php echo e(mesAnio($c['f_inicio'])); ?></span>
+                    <span>📅 <?php echo htmlspecialchars(mesAnio($c['f_inicio']), ENT_QUOTES, 'UTF-8'); ?></span>
                 <?php endif; ?>
 
                 <?php if (!empty($c['f_fin'])): ?>
-                    <span> – <?php echo e(mesAnio($c['f_fin'])); ?></span>
+                    <span> – <?php echo htmlspecialchars(mesAnio($c['f_fin']), ENT_QUOTES, 'UTF-8'); ?></span>
                 <?php endif; ?>
             </div>
 
