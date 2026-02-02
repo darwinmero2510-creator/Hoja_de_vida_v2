@@ -202,3 +202,12 @@ body {
 .btn-pdf:hover {
     opacity: 0.85;
 }
+.item-producto {
+    margin-bottom: 16px;
+}
+
+.desc-prod {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+}
