@@ -123,6 +123,11 @@ function mesAnio($fecha) {
             <strong><?php echo e($exp['cargo']); ?></strong> | <?php echo e($exp['empresa']); ?>
             <p><?php echo e($inicio); ?> - <?php echo e($fin); ?></p>
             <p><?php echo e($exp['descripcion']); ?></p>
+            <?php if (!empty($exp['certificado'])): ?>
+        <a href="<?php echo $exp['certificado']; ?>" target="_blank" class="btn-certificado">
+            Ver certificado
+        </a>
+    <?php endif; ?>
         </div>
     <?php endwhile; ?>
 </section>
