@@ -157,3 +157,48 @@ body {
 .item-educacion {
     margin-bottom: 25px;
 }
+/* ============================= */
+/* CURSOS Y RECONOCIMIENTOS */
+/* ============================= */
+
+.item-curso,
+.item-reconocimiento {
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.item-curso:last-child,
+.item-reconocimiento:last-child {
+    border-bottom: none;
+}
+
+/* Fechas de cursos */
+.item-curso .fechas {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+}
+
+/* Institución de reconocimientos */
+.item-reconocimiento .institucion {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+}
+
+/* Botón PDF */
+.btn-pdf {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--cafe-oscuro);
+    text-decoration: none;
+    background-color: var(--cafe-claro);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.btn-pdf:hover {
+    opacity: 0.85;
+}
