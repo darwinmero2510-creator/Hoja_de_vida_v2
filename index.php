@@ -103,18 +103,18 @@ function e($txt){
             <strong><?php echo e($c['nombre_curso']); ?></strong>
 
             <div class="fechas">
-                <?php if (!empty($c['f_inicio'])): ?>
-                    <span>
-                        📅 <?php echo e(strftime('%B %Y', strtotime($c['f_inicio']))); ?>
-                    </span>
-                <?php endif; ?>
+    <?php if (!empty($c['f_inicio'])): ?>
+        <span>
+            📅 <?php echo e(formatearMesAnio($c['f_inicio'])); ?>
+        </span>
+    <?php endif; ?>
 
-                <?php if (!empty($c['f_fin'])): ?>
-                    <span>
-                        – <?php echo e(strftime('%B %Y', strtotime($c['f_fin']))); ?>
-                    </span>
-                <?php endif; ?>
-            </div>
+    <?php if (!empty($c['f_fin'])): ?>
+        <span>
+            – <?php echo e(formatearMesAnio($c['f_fin'])); ?>
+        </span>
+    <?php endif; ?>
+</div>
 
             <?php if (!empty($archivo)): ?>
                 <div>
