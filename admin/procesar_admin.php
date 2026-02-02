@@ -65,13 +65,24 @@ if ($acc == 'nueva_experiencia') {
 }
 
 if ($acc == 'nuevo_curso') {
-    $i = (int)$_POST['f_inicio']; $f = (int)$_POST['f_fin'];
-    if ($f >= $i) {
-        $n = $_POST['nombre']; 
-        $r = subir($_FILES['archivo']); // Ahora $r será un link de Cloudinary
-        mysqli_query($conexion, "INSERT INTO cursos (idperfil, nombre_curso, f_inicio, f_fin, archivo_url) VALUES (1, '$n', '$i', '$f', '$r')");
+
+    // Convertimos YYYY-MM a fecha válida YYYY-MM-01
+    $i = !empty($_POST['f_inicio']) ? $_POST['f_inicio'] . '-01' : null;
+    $f = !empty($_POST['f_fin']) ? $_POST['f_fin'] . '-01' : null;
+
+    if ($f === null || $i === null || $f >= $i) {
+
+        $n = $_POST['nombre'];
+        $r = subir($_FILES['archivo']); // link de Cloudinary
+
+        mysqli_query(
+            $conexion,
+            "INSERT INTO cursos (idperfil, nombre_curso, f_inicio, f_fin, archivo_url)
+             VALUES (1, '$n', '$i', '$f', '$r')"
+        );
     }
 }
+
 
 if ($acc == 'nuevo_reconocimiento') {
     $t = $_POST['titulo']; $inst = $_POST['inst'];
