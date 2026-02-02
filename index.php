@@ -128,6 +128,7 @@ function e($txt){
 </section>
 
 
+
             <section class="caja-blanca mitad">
                 <div class="titulo-seccion">Reconocimientos</div>
 
