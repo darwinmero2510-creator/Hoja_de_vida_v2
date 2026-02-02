@@ -7,6 +7,26 @@ $d = mysqli_fetch_assoc($res_p);
 function e($txt){
     return htmlspecialchars($txt ?? '', ENT_QUOTES, 'UTF-8');
 }
+
+/* 🔹 FUNCIÓN PARA MOSTRAR MES Y AÑO (REEMPLAZA strftime) */
+function mesAnio($fecha) {
+    if (empty($fecha)) return '';
+
+    try {
+        $dt = new DateTime($fecha);
+    } catch (Exception $e) {
+        return '';
+    }
+
+    $meses = [
+        1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo',
+        4 => 'Abril', 5 => 'Mayo', 6 => 'Junio',
+        7 => 'Julio', 8 => 'Agosto', 9 => 'Septiembre',
+        10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
+    ];
+
+    return $meses[(int)$dt->format('m')] . ' ' . $dt->format('Y');
+}
 ?>
 
 <!DOCTYPE html>
@@ -87,17 +107,18 @@ function e($txt){
         <!-- CURSOS + RECONOCIMIENTOS -->
         <div class="fila-doble">
 
-             <section class="caja-blanca mitad">
+            <section class="caja-blanca mitad">
     <div class="titulo-seccion">Cursos</div>
 
     <?php
-    setlocale(LC_TIME, 'es_ES.UTF-8', 'spanish');
+    $res_cur = mysqli_query(
+        $conexion,
+        "SELECT * FROM cursos ORDER BY f_inicio DESC"
+    );
 
-    $res_cur = mysqli_query($conexion, "SELECT * FROM cursos");
     while ($c = mysqli_fetch_assoc($res_cur)):
-
-        // Aseguramos que el archivo sea válido
-        $archivo = trim($c['archivo'] ?? '');
+        // nombre correcto del campo según tu BD
+        $archivo = trim($c['archivo_url'] ?? '');
     ?>
         <div class="item-curso">
             <strong><?php echo e($c['nombre_curso']); ?></strong>
@@ -105,20 +126,27 @@ function e($txt){
             <div class="fechas">
                 <?php if (!empty($c['f_inicio'])): ?>
                     <span>
-                        📅 <?php echo e(strftime('%B %Y', strtotime($c['f_inicio']))); ?>
+                        📅 <?php echo e(mesAnio($c['f_inicio'])); ?>
                     </span>
                 <?php endif; ?>
 
-                <?php if (!empty($c['f_fin'])): ?>
-                    <span>
-                        – <?php echo e(strftime('%B %Y', strtotime($c['f_fin']))); ?>
-                    </span>
-                <?php endif; ?>
+                <span>
+                    –
+                    <?php
+                    if (!empty($c['f_fin'])) {
+                        echo e(mesAnio($c['f_fin']));
+                    } else {
+                        echo 'Actualidad';
+                    }
+                    ?>
+                </span>
             </div>
 
             <?php if (!empty($archivo)): ?>
                 <div>
-                    <a href="<?php echo e($archivo); ?>" target="_blank" class="btn-pdf">
+                    <a href="<?php echo e($archivo); ?>"
+                       target="_blank"
+                       class="btn-pdf">
                         📄 Ver certificado
                     </a>
                 </div>
@@ -126,6 +154,7 @@ function e($txt){
         </div>
     <?php endwhile; ?>
 </section>
+
 
             <section class="caja-blanca mitad">
                 <div class="titulo-seccion">Reconocimientos</div>
