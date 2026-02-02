@@ -40,7 +40,7 @@ $d = mysqli_fetch_assoc($res_p);
 
         <!-- NUEVOS CAMPOS -->
         <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top:10px;">
-            <input type="date" name="fecha_nacimiento" value="<?php echo $d['fecha_nacimiento']; ?>" placeholder="Fecha de Nacimiento">
+            <input type="date" name="fecha_nacimiento" value="<?php echo $d['fecha_nacimiento']; ?>" max="<?php echo date('Y-m-d'); ?>" placeholder="Fecha de Nacimiento">
             <input type="text" name="estado_civil" value="<?php echo $d['estado_civil']; ?>" placeholder="Estado Civil">
             <input type="text" name="nacionalidad" value="<?php echo $d['nacionalidad']; ?>" placeholder="Nacionalidad">
             <input type="text" name="lugar_nacimiento" value="<?php echo $d['lugar_nacimiento']; ?>" placeholder="Lugar de Nacimiento">
