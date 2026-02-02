@@ -87,28 +87,36 @@ function e($txt){
         <!-- CURSOS + RECONOCIMIENTOS -->
         <div class="fila-doble">
 
-            <section class="caja-blanca mitad">
+           <section class="caja-blanca mitad">
     <div class="titulo-seccion">Cursos</div>
 
     <?php
+    setlocale(LC_TIME, 'es_ES.UTF-8', 'spanish');
+
     $res_cur = mysqli_query($conexion, "SELECT * FROM cursos");
     while ($c = mysqli_fetch_assoc($res_cur)):
-        $archivo = $c['archivo'] ?? $c['pdf'] ?? '';
+
+        // Aseguramos que el archivo sea válido
+        $archivo = trim($c['archivo'] ?? '');
     ?>
         <div class="item-curso">
             <strong><?php echo e($c['nombre_curso']); ?></strong>
 
             <div class="fechas">
                 <?php if (!empty($c['f_inicio'])): ?>
-                    <span>📅 <?php echo e($c['f_inicio']); ?></span>
+                    <span>
+                        📅 <?php echo e(strftime('%B %Y', strtotime($c['f_inicio']))); ?>
+                    </span>
                 <?php endif; ?>
 
                 <?php if (!empty($c['f_fin'])): ?>
-                    <span> – <?php echo e($c['f_fin']); ?></span>
+                    <span>
+                        – <?php echo e(strftime('%B %Y', strtotime($c['f_fin']))); ?>
+                    </span>
                 <?php endif; ?>
             </div>
 
-            <?php if ($archivo): ?>
+            <?php if (!empty($archivo)): ?>
                 <div>
                     <a href="<?php echo e($archivo); ?>" target="_blank" class="btn-pdf">
                         📄 Ver certificado
