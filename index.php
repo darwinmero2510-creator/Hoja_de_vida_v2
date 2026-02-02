@@ -87,13 +87,16 @@ function e($txt){
         <!-- CURSOS + RECONOCIMIENTOS -->
         <div class="fila-doble">
 
-            <section class="caja-blanca mitad">
+             <section class="caja-blanca mitad">
     <div class="titulo-seccion">Cursos</div>
 
     <?php
+    setlocale(LC_TIME, 'es_ES.UTF-8', 'spanish');
+
     $res_cur = mysqli_query($conexion, "SELECT * FROM cursos");
     while ($c = mysqli_fetch_assoc($res_cur)):
 
+        // Aseguramos que el archivo sea válido
         $archivo = trim($c['archivo'] ?? '');
     ?>
         <div class="item-curso">
@@ -101,11 +104,15 @@ function e($txt){
 
             <div class="fechas">
                 <?php if (!empty($c['f_inicio'])): ?>
-                    <span>📅 <?php echo htmlspecialchars(mesAnio($c['f_inicio']), ENT_QUOTES, 'UTF-8'); ?></span>
+                    <span>
+                        📅 <?php echo e(strftime('%B %Y', strtotime($c['f_inicio']))); ?>
+                    </span>
                 <?php endif; ?>
 
                 <?php if (!empty($c['f_fin'])): ?>
-                    <span> – <?php echo htmlspecialchars(mesAnio($c['f_fin']), ENT_QUOTES, 'UTF-8'); ?></span>
+                    <span>
+                        – <?php echo e(strftime('%B %Y', strtotime($c['f_fin']))); ?>
+                    </span>
                 <?php endif; ?>
             </div>
 
