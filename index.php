@@ -322,6 +322,11 @@ document.getElementById("btnDescargarPDF").addEventListener("click", function() 
     html2pdf().set(opciones).from(elemento).save();
 });
 </script>
+        <div class="btn-admin-container">
+    <a href="https://hoja-de-vida-v2-1.onrender.com/admin/login.php" target="_blank">
+        <button class="btn-admin">Panel de Administrador</button>
+    </a>
+</div>
     </main>
 </div>
 
