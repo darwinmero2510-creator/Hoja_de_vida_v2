@@ -161,7 +161,7 @@ function mesAnio($fecha) {
     <?php
     $res_rec = mysqli_query(
         $conexion,
-        "SELECT * FROM reconocimientos ORDER BY id DESC"
+        "SELECT * FROM reconocimientos ORDER BY id_rec DESC"
     );
 
     while ($r = mysqli_fetch_assoc($res_rec)):
