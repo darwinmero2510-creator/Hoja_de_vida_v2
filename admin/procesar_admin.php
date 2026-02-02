@@ -115,6 +115,7 @@ if ($acc == 'datos_personales') {
     $lugar = $_POST['lugar_nacimiento'];
     $cedula = $_POST['numero_cedula'];
     $direccion = $_POST['direccion'];
+    $sexo = $_POST['sexo'];
 
     // Foto
     $foto = subir($_FILES['foto']); 
@@ -130,8 +131,9 @@ if ($acc == 'datos_personales') {
             nacionalidad='$nacionalidad',
             lugar_nacimiento='$lugar',
             numero_cedula='$cedula',
-            direccion='$direccion'";
-
+            direccion='$direccion';
+            sexo='$sexo'";
+    
     if($foto) {
         $sql .= ", foto_perfil='$foto'";
     }
