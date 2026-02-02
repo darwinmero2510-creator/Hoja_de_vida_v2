@@ -190,24 +190,58 @@ function mesAnio($fecha) {
 </section>
 </div>
 
-        <!-- PRODUCTOS -->
-        <section class="caja-blanca">
-            <div class="titulo-seccion">Productos</div>
+       <div class="fila-doble">
 
-            <?php
-            $res_prod = mysqli_query($conexion, "SELECT * FROM productos");
-            while($p = mysqli_fetch_assoc($res_prod)):
-            ?>
-                <p>
-                    <strong><?php echo e($p['nombre_producto']); ?></strong>
-                    <span class="badge"><?php echo e($p['tipo']); ?></span>
-                </p>
-                <p>
-                    <?php echo e($p['descripcion']); ?>
-                </p>
+    <!-- PRODUCTOS LABORALES -->
+    <section class="caja-blanca mitad">
+        <div class="titulo-seccion">Productos Laborales</div>
 
-            <?php endwhile; ?>
-        </section>
+        <?php
+        $res_prod_lab = mysqli_query(
+            $conexion,
+            "SELECT * FROM productos WHERE tipo = 'laboral'"
+        );
+
+        while ($p = mysqli_fetch_assoc($res_prod_lab)):
+        ?>
+            <div class="item-producto">
+                <strong><?php echo e($p['nombre_producto']); ?></strong>
+
+                <?php if (!empty($p['descripcion'])): ?>
+                    <div class="desc-prod">
+                        <?php echo e($p['descripcion']); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endwhile; ?>
+    </section>
+
+    <!-- PRODUCTOS ACADÉMICOS -->
+    <section class="caja-blanca mitad">
+        <div class="titulo-seccion">Productos Académicos</div>
+
+        <?php
+        $res_prod_aca = mysqli_query(
+            $conexion,
+            "SELECT * FROM productos WHERE tipo = 'academico'"
+        );
+
+        while ($p = mysqli_fetch_assoc($res_prod_aca)):
+        ?>
+            <div class="item-producto">
+                <strong><?php echo e($p['nombre_producto']); ?></strong>
+
+                <?php if (!empty($p['descripcion'])): ?>
+                    <div class="desc-prod">
+                        <?php echo e($p['descripcion']); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endwhile; ?>
+    </section>
+
+</div>
+
 
 
         <!-- VENTA DE GARAJE (TODO ARREGLADO) -->
