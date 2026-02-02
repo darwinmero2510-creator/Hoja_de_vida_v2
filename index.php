@@ -97,20 +97,21 @@ function mesAnio($fecha) {
 
             <?php
             $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
+            setlocale(LC_TIME, 'es_ES.UTF-8');
             while($exp = mysqli_fetch_assoc($res_exp)):
-                $inicio = date('m/Y', strtotime($exp['f_inicio']));
+                $inicio = strftime("%B %Y", strtotime($exp['f_inicio']));
                 if (empty($exp['f_fin'])) {
             $fin = 'Actualidad';
         } else {
-            $fin = date('m/Y', strtotime($exp['f_fin']));
+            $fin = strftime("%B %Y", strtotime($exp['f_fin']));
         }
             ?>
                 <div>
-                    <strong><?php echo e($exp['cargo']); ?></strong> | <?php echo e($exp['empresa']); ?>
-                    <p><?php echo e($exp['f_inicio']); ?> - <?php echo e($exp['f_fin'] ?: 'Actualidad'); ?></p>
-                    <p><?php echo e($exp['descripcion']); ?></p>
-                </div>
-            <?php endwhile; ?>
+        <strong><?php echo e($exp['cargo']); ?></strong> | <?php echo e($exp['empresa']); ?>
+        <p><?php echo e(ucfirst($inicio)); ?> - <?php echo e($fin); ?></p>
+        <p><?php echo e($exp['descripcion']); ?></p>
+    </div>
+<?php endwhile; ?>
         </section>
 
 
