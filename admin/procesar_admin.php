@@ -111,14 +111,15 @@ if ($acc == 'datos_personales') {
     // NUEVOS CAMPOS
     $fecha = $_POST['fecha_nacimiento'];
     $hoy = date('Y-m-d');
-
-if ($fecha_nacimiento > $hoy) {
-    echo "<script>
-        alert('No es posible colocar esta fecha o es viaje en el tiempo');
+    if ($fecha_nacimiento > $hoy) {
+    echo '<script>
+        alert("No es posible colocar esta fecha o es viaje en el tiempo");
         window.history.back();
-    </script>";
+    </script>';
     exit;
-}
+    }
+
+
     $estado = $_POST['estado_civil'];
     $nacionalidad = $_POST['nacionalidad'];
     $lugar = $_POST['lugar_nacimiento'];
