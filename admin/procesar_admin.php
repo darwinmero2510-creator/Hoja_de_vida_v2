@@ -26,43 +26,66 @@ function subir($f) {
 
 if ($acc == 'nueva_experiencia') {
 
-    
     $e = $_POST['empresa'];
     $c = $_POST['cargo'];
     $d = $_POST['desc'];
 
-    
-    $f_inicio = $_POST['f_inicio'] . '-01'; 
+    $f_inicio = $_POST['f_inicio'] . '-01';
 
     if (!empty($_POST['f_fin'])) {
         $f_fin = $_POST['f_fin'] . '-01';
     } else {
-        $f_fin = null; 
+        $f_fin = null;
     }
 
+    /* ===========================
+       CERTIFICADO (OPCIONAL)
+    ============================ */
+    $certificado = null;
+
+    if (isset($_FILES['certificado']) && $_FILES['certificado']['error'] === 0) {
+
+        $carpeta = "../certificados/";
+        if (!is_dir($carpeta)) {
+            mkdir($carpeta, 0777, true);
+        }
+
+        $nombreArchivo = time() . "_" . basename($_FILES['certificado']['name']);
+        $rutaFinal = $carpeta . $nombreArchivo;
+
+        move_uploaded_file($_FILES['certificado']['tmp_name'], $rutaFinal);
+
+        $certificado = "certificados/" . $nombreArchivo;
+    }
+
+    /* ===========================
+       VALIDACIÓN DE FECHAS
+    ============================ */
     if ($f_fin === null || strtotime($f_fin) >= strtotime($f_inicio)) {
 
         $stmt = $conexion->prepare("
             INSERT INTO experiencia_laboral
-            (idperfil, empresa, cargo, f_inicio, f_fin, descripcion)
-            VALUES (?, ?, ?, ?, ?, ?)
+            (idperfil, empresa, cargo, f_inicio, f_fin, descripcion, certificado)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
 
         $idperfil = 1;
 
         $stmt->bind_param(
-            "isssss",
+            "issssss",
             $idperfil,
             $e,
             $c,
             $f_inicio,
             $f_fin,
-            $d
+            $d,
+            $certificado
         );
 
         $stmt->execute();
     }
 }
+
 
 if ($acc == 'nuevo_curso') {
 
