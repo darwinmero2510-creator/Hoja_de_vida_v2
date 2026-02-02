@@ -96,22 +96,31 @@ function mesAnio($fecha) {
             <div class="titulo-seccion"><i class="fas fa-briefcase"></i> Experiencia</div>
 
             <?php
-            $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
-            setlocale(LC_TIME, 'es_ES.UTF-8');
-            while($exp = mysqli_fetch_assoc($res_exp)):
-                $inicio = strftime("%B %Y", strtotime($exp['f_inicio']));
-                if (empty($exp['f_fin'])) {
-            $fin = 'Actualidad';
-        } else {
-            $fin = strftime("%B %Y", strtotime($exp['f_fin']));
-        }
-            ?>
-                <div>
+$res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
+
+while($exp = mysqli_fetch_assoc($res_exp)):
+
+    $formatter = new IntlDateFormatter(
+        'es_ES', // idioma español
+        IntlDateFormatter::LONG, // formato de fecha largo (mes y año)
+        IntlDateFormatter::NONE // no mostrar hora
+    );
+
+    $inicio = $formatter->format(new DateTime($exp['f_inicio']));
+
+    if (empty($exp['f_fin'])) {
+        $fin = 'Actualidad';
+    } else {
+        $fin = $formatter->format(new DateTime($exp['f_fin']));
+    }
+?>
+    <div>
         <strong><?php echo e($exp['cargo']); ?></strong> | <?php echo e($exp['empresa']); ?>
-        <p><?php echo e(ucfirst($inicio)); ?> - <?php echo e($fin); ?></p>
+        <p><?php echo e($inicio); ?> - <?php echo e($fin); ?></p>
         <p><?php echo e($exp['descripcion']); ?></p>
     </div>
 <?php endwhile; ?>
+
         </section>
 
 
