@@ -88,21 +88,37 @@ function e($txt){
         <div class="fila-doble">
 
             <section class="caja-blanca mitad">
-                <div class="titulo-seccion">Cursos</div>
+    <div class="titulo-seccion">Cursos</div>
 
-                <?php
-                $res_cur = mysqli_query($conexion, "SELECT * FROM cursos");
-                while($c = mysqli_fetch_assoc($res_cur)):
-                    $archivo = $c['archivo'] ?? $c['pdf'] ?? '';
-                ?>
-                    <p>
-                        <?php echo e($c['nombre_curso']); ?>
-                        <?php if($archivo): ?>
-                            <a href="<?php echo e($archivo); ?>" target="_blank" class="btn-pdf">📄</a>
-                        <?php endif; ?>
-                    </p>
-                <?php endwhile; ?>
-            </section>
+    <?php
+    $res_cur = mysqli_query($conexion, "SELECT * FROM cursos");
+    while ($c = mysqli_fetch_assoc($res_cur)):
+        $archivo = $c['archivo'] ?? $c['pdf'] ?? '';
+    ?>
+        <div class="item-curso">
+            <strong><?php echo e($c['nombre_curso']); ?></strong>
+
+            <div class="fechas">
+                <?php if (!empty($c['f_inicio'])): ?>
+                    <span>📅 <?php echo e($c['f_inicio']); ?></span>
+                <?php endif; ?>
+
+                <?php if (!empty($c['f_fin'])): ?>
+                    <span> – <?php echo e($c['f_fin']); ?></span>
+                <?php endif; ?>
+            </div>
+
+            <?php if ($archivo): ?>
+                <div>
+                    <a href="<?php echo e($archivo); ?>" target="_blank" class="btn-pdf">
+                        📄 Ver certificado
+                    </a>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endwhile; ?>
+</section>
+
 
 
             <section class="caja-blanca mitad">
