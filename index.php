@@ -154,26 +154,40 @@ function mesAnio($fecha) {
         </div>
     <?php endwhile; ?>
 </section>
+            
+           <section class="caja-blanca mitad">
+    <div class="titulo-seccion">Reconocimientos</div>
 
+    <?php
+    $res_rec = mysqli_query(
+        $conexion,
+        "SELECT * FROM reconocimientos ORDER BY id DESC"
+    );
 
-            <section class="caja-blanca mitad">
-                <div class="titulo-seccion">Reconocimientos</div>
+    while ($r = mysqli_fetch_assoc($res_rec)):
+        $archivo = trim($r['archivo_url'] ?? '');
+    ?>
+        <div class="item-reconocimiento">
+            <strong><?php echo e($r['titulo']); ?></strong>
 
-                <?php
-                $res_rec = mysqli_query($conexion, "SELECT * FROM reconocimientos");
-                while($r = mysqli_fetch_assoc($res_rec)):
-                    $archivo = $r['archivo'] ?? $r['pdf'] ?? '';
-                ?>
-                    <p>
-                        <?php echo e($r['titulo']); ?>
-                        <?php if($archivo): ?>
-                            <a href="<?php echo e($archivo); ?>" target="_blank" class="btn-pdf">📄</a>
-                        <?php endif; ?>
-                    </p>
-                <?php endwhile; ?>
-            </section>
+            <?php if (!empty($r['institucion'])): ?>
+                <div class="institucion">
+                    🏛 <?php echo e($r['institucion']); ?>
+                </div>
+            <?php endif; ?>
 
+            <?php if (!empty($archivo)): ?>
+                <div>
+                    <a href="<?php echo e($archivo); ?>"
+                       target="_blank"
+                       class="btn-pdf">
+                        📄 Ver certificado
+                    </a>
+                </div>
+            <?php endif; ?>
         </div>
+    <?php endwhile; ?>
+</section>
 
 
         <!-- PRODUCTOS -->
