@@ -93,35 +93,40 @@ function mesAnio($fecha) {
 
         <!-- EXPERIENCIA -->
         <section class="caja-blanca">
-            <div class="titulo-seccion"><i class="fas fa-briefcase"></i> Experiencia</div>
+    <div class="titulo-seccion"><i class="fas fa-briefcase"></i> Experiencia</div>
 
-            <?php
-$res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
+    <?php
+    $res_exp = mysqli_query($conexion, "SELECT * FROM experiencia_laboral ORDER BY f_inicio DESC");
 
-while($exp = mysqli_fetch_assoc($res_exp)):
+    // Array de meses en español
+    $meses = [
+        1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+        5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+        9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
+    ];
 
-    $formatter = new IntlDateFormatter(
-        'es_ES', // idioma español
-        IntlDateFormatter::LONG, // formato de fecha largo (mes y año)
-        IntlDateFormatter::NONE // no mostrar hora
-    );
+    while($exp = mysqli_fetch_assoc($res_exp)):
 
-    $inicio = $formatter->format(new DateTime($exp['f_inicio']));
+        // Formatear fecha de inicio
+        $fecha_inicio = strtotime($exp['f_inicio']);
+        $inicio = $meses[(int)date('m', $fecha_inicio)] . ' ' . date('Y', $fecha_inicio);
 
-    if (empty($exp['f_fin'])) {
-        $fin = 'Actualidad';
-    } else {
-        $fin = $formatter->format(new DateTime($exp['f_fin']));
-    }
-?>
-    <div>
-        <strong><?php echo e($exp['cargo']); ?></strong> | <?php echo e($exp['empresa']); ?>
-        <p><?php echo e($inicio); ?> - <?php echo e($fin); ?></p>
-        <p><?php echo e($exp['descripcion']); ?></p>
-    </div>
-<?php endwhile; ?>
+        // Formatear fecha de fin
+        if (empty($exp['f_fin'])) {
+            $fin = 'Actualidad';
+        } else {
+            $fecha_fin = strtotime($exp['f_fin']);
+            $fin = $meses[(int)date('m', $fecha_fin)] . ' ' . date('Y', $fecha_fin);
+        }
+    ?>
+        <div>
+            <strong><?php echo e($exp['cargo']); ?></strong> | <?php echo e($exp['empresa']); ?>
+            <p><?php echo e($inicio); ?> - <?php echo e($fin); ?></p>
+            <p><?php echo e($exp['descripcion']); ?></p>
+        </div>
+    <?php endwhile; ?>
+</section>
 
-        </section>
 
 
         <!-- CURSOS + RECONOCIMIENTOS -->
