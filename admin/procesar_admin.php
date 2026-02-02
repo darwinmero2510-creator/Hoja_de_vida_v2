@@ -131,7 +131,7 @@ if ($acc == 'datos_personales') {
             nacionalidad='$nacionalidad',
             lugar_nacimiento='$lugar',
             numero_cedula='$cedula',
-            direccion='$direccion';
+            direccion='$direccion',
             sexo='$sexo'";
     
     if($foto) {
