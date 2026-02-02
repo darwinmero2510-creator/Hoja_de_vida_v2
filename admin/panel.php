@@ -74,6 +74,8 @@ $d = mysqli_fetch_assoc($res_p);
                     <input type="month" name="f_fin">
                     
                     <textarea name="desc" placeholder="¿Qué hiciste allí?"></textarea>
+                    <label>Certificado (opcional):</label>
+                    <input type="file" name="certificado" accept=".pdf,.jpg,.jpeg,.png">  
                     <button type="submit">Guardar Experiencia</button>
                 </form>
             </div>
