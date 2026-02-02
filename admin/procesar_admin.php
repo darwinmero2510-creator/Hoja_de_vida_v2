@@ -41,7 +41,7 @@ if ($acc == 'nueva_experiencia') {
     /* ===========================
        CERTIFICADO (OPCIONAL)
     ============================ */
-    $certificado = null;
+    $certificado = '';
 
     if (isset($_FILES['certificado']) && $_FILES['certificado']['error'] === 0) {
 
