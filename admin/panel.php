@@ -46,6 +46,10 @@ $d = mysqli_fetch_assoc($res_p);
             <input type="text" name="lugar_nacimiento" value="<?php echo $d['lugar_nacimiento']; ?>" placeholder="Lugar de Nacimiento">
             <input type="text" name="numero_cedula" value="<?php echo $d['numero_cedula']; ?>" placeholder="Número de Cédula">
             <input type="text" name="direccion" value="<?php echo $d['direccion']; ?>" placeholder="Dirección">
+            <select name="sexo">
+        <option value="Masculino" <?php if($d['sexo']=='Masculino') echo 'selected'; ?>>Masculino</option>
+        <option value="Femenino" <?php if($d['sexo']=='Femenino') echo 'selected'; ?>>Femenino</option>
+    </select>
         </div>
 
         <textarea name="perfil_desc" placeholder="Resumen profesional..."><?php echo $d['perfil_descripcion']; ?></textarea>
