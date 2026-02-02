@@ -102,12 +102,44 @@ if ($acc == 'nueva_venta') {
 }
 
 if ($acc == 'datos_personales') {
-    $n = $_POST['nombre']; $c = $_POST['correo']; $t = $_POST['telefono']; $d = $_POST['perfil_desc'];
+    // Campos existentes
+    $n = $_POST['nombre'];
+    $c = $_POST['correo'];
+    $t = $_POST['telefono'];
+    $d = $_POST['perfil_desc'];
+
+    // NUEVOS CAMPOS
+    $fecha = $_POST['fecha_nacimiento'];
+    $estado = $_POST['estado_civil'];
+    $nacionalidad = $_POST['nacionalidad'];
+    $lugar = $_POST['lugar_nacimiento'];
+    $cedula = $_POST['numero_cedula'];
+    $direccion = $_POST['direccion'];
+
+    // Foto
     $foto = subir($_FILES['foto']); 
-    $sql = "UPDATE datos_personales SET nombre='$n', correo='$c', telefono='$t', perfil_descripcion='$d'";
-    if($foto) $sql .= ", foto_perfil='$foto'";
-    mysqli_query($conexion, $sql . " WHERE idperfil=1");
+
+    // Consulta SQL
+    $sql = "UPDATE datos_personales SET 
+            nombre='$n',
+            correo='$c',
+            telefono='$t',
+            perfil_descripcion='$d',
+            fecha_nacimiento='$fecha',
+            estado_civil='$estado',
+            nacionalidad='$nacionalidad',
+            lugar_nacimiento='$lugar',
+            numero_cedula='$cedula',
+            direccion='$direccion'";
+
+    if($foto) {
+        $sql .= ", foto_perfil='$foto'";
+    }
+
+    $sql .= " WHERE idperfil=1";
+    mysqli_query($conexion, $sql);
 }
+
 
 header("Location: panel.php");
 ?>
