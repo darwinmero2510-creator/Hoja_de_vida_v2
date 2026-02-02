@@ -188,7 +188,7 @@ function mesAnio($fecha) {
         </div>
     <?php endwhile; ?>
 </section>
-
+</div>
 
         <!-- PRODUCTOS -->
         <section class="caja-blanca">
