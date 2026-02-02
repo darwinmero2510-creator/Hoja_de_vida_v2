@@ -62,7 +62,7 @@ $d = mysqli_fetch_assoc($res_p);
         <div class="grid">
             <div class="card">
                 <h2><i class="fas fa-briefcase"></i> Nueva Experiencia</h2>
-                <form action="procesar_admin.php" method="POST">
+                <form action="procesar_admin.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="accion" value="nueva_experiencia">
                     <input type="text" name="empresa" placeholder="Empresa" required>
                     <input type="text" name="cargo" placeholder="Cargo" required>
