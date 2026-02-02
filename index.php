@@ -199,7 +199,7 @@ function mesAnio($fecha) {
         <?php
         $res_prod_lab = mysqli_query(
             $conexion,
-            "SELECT * FROM productos WHERE tipo = 'laboral'"
+            "SELECT * FROM productos WHERE tipo = 'Laboral'"
         );
 
         while ($p = mysqli_fetch_assoc($res_prod_lab)):
@@ -223,7 +223,7 @@ function mesAnio($fecha) {
         <?php
         $res_prod_aca = mysqli_query(
             $conexion,
-            "SELECT * FROM productos WHERE tipo = 'academico'"
+            "SELECT * FROM productos WHERE tipo = 'Académico'"
         );
 
         while ($p = mysqli_fetch_assoc($res_prod_aca)):
