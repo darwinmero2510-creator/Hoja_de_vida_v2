@@ -91,12 +91,9 @@ function e($txt){
     <div class="titulo-seccion">Cursos</div>
 
     <?php
-    setlocale(LC_TIME, 'es_ES.UTF-8', 'spanish');
-
     $res_cur = mysqli_query($conexion, "SELECT * FROM cursos");
     while ($c = mysqli_fetch_assoc($res_cur)):
 
-        // Aseguramos que el archivo sea válido
         $archivo = trim($c['archivo'] ?? '');
     ?>
         <div class="item-curso">
@@ -105,13 +102,13 @@ function e($txt){
             <div class="fechas">
                 <?php if (!empty($c['f_inicio'])): ?>
                     <span>
-                        📅 <?php echo e(strftime('%B %Y', strtotime($c['f_inicio']))); ?>
+                        📅 <?php echo e(formatearMesAnio($c['f_inicio'])); ?>
                     </span>
                 <?php endif; ?>
 
                 <?php if (!empty($c['f_fin'])): ?>
                     <span>
-                        – <?php echo e(strftime('%B %Y', strtotime($c['f_fin']))); ?>
+                        – <?php echo e(formatearMesAnio($c['f_fin'])); ?>
                     </span>
                 <?php endif; ?>
             </div>
@@ -126,7 +123,6 @@ function e($txt){
         </div>
     <?php endwhile; ?>
 </section>
-
 
 
             <section class="caja-blanca mitad">
