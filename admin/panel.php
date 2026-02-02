@@ -28,19 +28,32 @@ $d = mysqli_fetch_assoc($res_p);
         <a href="logout.php" class="btn-salir"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
 
         <div class="card">
-            <h2><i class="fas fa-user-circle"></i> Mi Perfil</h2>
-            <form action="procesar_admin.php" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="accion" value="datos_personales">
-                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-                    <input type="text" name="nombre" value="<?php echo $d['nombre']; ?>" placeholder="Nombre">
-                    <input type="email" name="correo" value="<?php echo $d['correo']; ?>" placeholder="Correo">
-                    <input type="text" name="telefono" value="<?php echo $d['telefono']; ?>" placeholder="Teléfono">
-                </div>
-                <textarea name="perfil_desc" placeholder="Resumen profesional..."><?php echo $d['perfil_descripcion']; ?></textarea>
-                <label>Foto de Perfil:</label><input type="file" name="foto">
-                <button type="submit">Actualizar Perfil</button>
-            </form>
+    <h2><i class="fas fa-user-circle"></i> Mi Perfil</h2>
+    <form action="procesar_admin.php" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="accion" value="datos_personales">
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+            <input type="text" name="nombre" value="<?php echo $d['nombre']; ?>" placeholder="Nombre">
+            <input type="email" name="correo" value="<?php echo $d['correo']; ?>" placeholder="Correo">
+            <input type="text" name="telefono" value="<?php echo $d['telefono']; ?>" placeholder="Teléfono">
         </div>
+
+        <!-- NUEVOS CAMPOS -->
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top:10px;">
+            <input type="date" name="fecha_nacimiento" value="<?php echo $d['fecha_nacimiento']; ?>" placeholder="Fecha de Nacimiento">
+            <input type="text" name="estado_civil" value="<?php echo $d['estado_civil']; ?>" placeholder="Estado Civil">
+            <input type="text" name="nacionalidad" value="<?php echo $d['nacionalidad']; ?>" placeholder="Nacionalidad">
+            <input type="text" name="lugar_nacimiento" value="<?php echo $d['lugar_nacimiento']; ?>" placeholder="Lugar de Nacimiento">
+            <input type="text" name="numero_cedula" value="<?php echo $d['numero_cedula']; ?>" placeholder="Número de Cédula">
+            <input type="text" name="direccion" value="<?php echo $d['direccion']; ?>" placeholder="Dirección">
+        </div>
+
+        <textarea name="perfil_desc" placeholder="Resumen profesional..."><?php echo $d['perfil_descripcion']; ?></textarea>
+        <label>Foto de Perfil:</label><input type="file" name="foto">
+        <button type="submit">Actualizar Perfil</button>
+    </form>
+</div>
+
 
         <div class="grid">
             <div class="card">
