@@ -94,10 +94,11 @@ $d = mysqli_fetch_assoc($res_p);
         <input type="text" name="nombre" placeholder="Nombre del Curso" required>
 
         <label>Mes/Año Inicio:</label>
-        <input type="month" name="f_inicio" required>
+<input type="text" name="f_inicio" placeholder="MM/YYYY" required>
 
-        <label>Mes/Año Fin:</label>
-        <input type="month" name="f_fin" required>
+<label>Mes/Año Fin:</label>
+<input type="text" name="f_fin" placeholder="MM/YYYY">
+
 
         <input type="number" name="totalhoras" placeholder="Total Horas" min="0">
 
