@@ -249,52 +249,60 @@ function mesAnio($fecha) {
        <div class="fila-doble">
 
     <!-- PRODUCTOS LABORALES -->
-    <section class="caja-blanca mitad">
-        <div class="titulo-seccion">Productos Laborales</div>
+<section class="caja-blanca mitad">
+    <div class="titulo-seccion">Productos Laborales</div>
 
-        <?php
-        $res_prod_lab = mysqli_query(
-            $conexion,
-            "SELECT * FROM productos WHERE tipo = 'Laboral'"
-        );
+    <?php
+    $res_prod_lab = mysqli_query(
+        $conexion,
+        "SELECT * FROM productos_laborales WHERE activarparaqueseveaenfront = 1 ORDER BY fechaproducto DESC"
+    );
 
-        while ($p = mysqli_fetch_assoc($res_prod_lab)):
-        ?>
-            <div class="item-producto">
-                <strong><?php echo e($p['nombre_producto']); ?></strong>
+    while ($p = mysqli_fetch_assoc($res_prod_lab)):
+        $fecha_lab = !empty($p['fechaproducto'])
+            ? date('m/Y', strtotime($p['fechaproducto']))
+            : '';
+    ?>
+        <div class="item-producto">
+            <strong><?php echo e($p['nombreproducto']); ?></strong>
 
-                <?php if (!empty($p['descripcion'])): ?>
-                    <div class="desc-prod">
-                        <?php echo e($p['descripcion']); ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        <?php endwhile; ?>
-    </section>
+            <?php if (!empty($fecha_lab)): ?>
+                <div class="fecha-prod"><?php echo e($fecha_lab); ?></div>
+            <?php endif; ?>
 
-    <!-- PRODUCTOS ACADÉMICOS -->
-    <section class="caja-blanca mitad">
-        <div class="titulo-seccion">Productos Académicos</div>
+            <?php if (!empty($p['descripcion'])): ?>
+                <div class="desc-prod"><?php echo e($p['descripcion']); ?></div>
+            <?php endif; ?>
+        </div>
+    <?php endwhile; ?>
+</section>
 
-        <?php
-        $res_prod_aca = mysqli_query(
-            $conexion,
-            "SELECT * FROM productos WHERE tipo = 'Académico'"
-        );
+<!-- PRODUCTOS ACADÉMICOS -->
+<section class="caja-blanca mitad">
+    <div class="titulo-seccion">Productos Académicos</div>
 
-        while ($p = mysqli_fetch_assoc($res_prod_aca)):
-        ?>
-            <div class="item-producto">
-                <strong><?php echo e($p['nombre_producto']); ?></strong>
+    <?php
+    $res_prod_aca = mysqli_query(
+        $conexion,
+        "SELECT * FROM productos_academicos WHERE activarparaqueseveaenfront = 1 ORDER BY idproductoacademico DESC"
+    );
 
-                <?php if (!empty($p['descripcion'])): ?>
-                    <div class="desc-prod">
-                        <?php echo e($p['descripcion']); ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        <?php endwhile; ?>
-    </section>
+    while ($p = mysqli_fetch_assoc($res_prod_aca)):
+    ?>
+        <div class="item-producto">
+            <strong><?php echo e($p['nombrerecurso']); ?></strong>
+
+            <?php if (!empty($p['clasificador'])): ?>
+                <div class="clasificador-prod"><?php echo e($p['clasificador']); ?></div>
+            <?php endif; ?>
+
+            <?php if (!empty($p['descripcion'])): ?>
+                <div class="desc-prod"><?php echo e($p['descripcion']); ?></div>
+            <?php endif; ?>
+        </div>
+    <?php endwhile; ?>
+</section>
+
 
 </div>
 
