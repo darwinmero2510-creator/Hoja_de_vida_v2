@@ -107,22 +107,64 @@ if ($acc == 'nueva_experiencia') {
 
 if ($acc == 'nuevo_curso') {
 
-    // Convertimos YYYY-MM a fecha válida YYYY-MM-01
-    $i = !empty($_POST['f_inicio']) ? $_POST['f_inicio'] . '-01' : null;
-    $f = !empty($_POST['f_fin']) ? $_POST['f_fin'] . '-01' : null;
+    $idperfil = 1; // Perfil fijo
 
-    if ($f === null || $i === null || $f >= $i) {
+    // Convertir fechas MM/YYYY a YYYY-MM-01
+    $f_inicio = convertirMesAnio($_POST['f_inicio'] ?? '');
+    $f_fin = !empty($_POST['f_fin']) ? convertirMesAnio($_POST['f_fin']) : null;
 
-        $n = $_POST['nombre'];
-        $r = subir($_FILES['archivo']); // link de Cloudinary
-
-        mysqli_query(
-            $conexion,
-            "INSERT INTO cursos (idperfil, nombre_curso, f_inicio, f_fin, archivo_url)
-             VALUES (1, '$n', '$i', '$f', '$r')"
-        );
+    // Validar que la fecha final sea >= fecha inicio
+    if ($f_fin !== null && strtotime($f_fin) < strtotime($f_inicio)) {
+        echo "<script>
+                alert('La fecha de fin no puede ser anterior a la fecha de inicio');
+                window.history.back();
+              </script>";
+        exit;
     }
+
+    $nombre_curso = $_POST['nombre'] ?? '';
+    $totalhoras = $_POST['totalhoras'] ?? null;
+    $descripcion_curso = $_POST['descripcion_curso'] ?? null;
+
+    // Validar totalhoras
+    if (!empty($totalhoras)) {
+        $totalhoras = (int)$totalhoras;
+        if ($totalhoras < 0) {
+            echo "<script>
+                    alert('El campo Total Horas no puede ser negativo');
+                    window.history.back();
+                  </script>";
+            exit;
+        }
+    }
+
+    // Subida de archivo
+    $archivo_url = '';
+    if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === 0) {
+        $archivo_url = subir($_FILES['archivo']); // tu función de Cloudinary
+    }
+
+    // Guardar en la base de datos
+    $stmt = $conexion->prepare("
+        INSERT INTO cursos
+        (idperfil, nombre_curso, f_inicio, f_fin, totalhoras, descripcion_curso, archivo_url)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ");
+
+    $stmt->bind_param(
+        "isssiss",
+        $idperfil,
+        $nombre_curso,
+        $f_inicio,
+        $f_fin,
+        $totalhoras,
+        $descripcion_curso,
+        $archivo_url
+    );
+
+    $stmt->execute();
 }
+
 
 
 if ($acc == 'nuevo_reconocimiento') {
