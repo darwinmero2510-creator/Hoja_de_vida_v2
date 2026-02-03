@@ -67,11 +67,17 @@ $d = mysqli_fetch_assoc($res_p);
                     <input type="text" name="empresa" placeholder="Empresa" required>
                     <input type="text" name="cargo" placeholder="Cargo" required>
                     
-                    <label>Mes/Año Inicio:</label>
-                    <input type="month" name="f_inicio" required>
-                    
-                    <label>Mes/Año Fin (Vacío = Actualidad):</label>
-                    <input type="month" name="f_fin">
+                    <label>Mes/Año Inicio (MM/YYYY):</label>
+                    <input type="text"
+                           name="f_inicio"
+                           placeholder="04/2025"
+                           required>
+
+                <label>Mes/Año Fin (MM/YYYY) – Vacío = Actualidad:</label>
+                   <input type="text"
+                          name="f_fin"
+                          placeholder="04/2025">
+
                     
                     <textarea name="desc" placeholder="¿Qué hiciste allí?"></textarea>
                     <label>Certificado (opcional):</label>
