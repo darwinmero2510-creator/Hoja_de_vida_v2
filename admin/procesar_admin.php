@@ -110,7 +110,13 @@ if ($acc == 'nuevo_curso') {
 if ($acc == 'nuevo_reconocimiento') {
     $t = $_POST['titulo']; $inst = $_POST['inst'];
     $r = subir($_FILES['archivo']); 
-    mysqli_query($conexion, "INSERT INTO reconocimientos (idperfil, titulo, institucion, archivo_url) VALUES (1, '$t', '$inst', '$r')");
+    $fecha_rec = !empty($_POST['fecha_reconocimiento'])
+    ? convertirMesAnio($_POST['fecha_reconocimiento'])
+    : null;
+
+$desc_rec = $_POST['descripcion_reconocimiento'] ?? null;
+
+    mysqli_query($conexion, "INSERT INTO reconocimientos (idperfil, titulo, institucion, fecha_reconocimiento, descripcion_reconocimiento, archivo_url) VALUES (1, '$t', '$inst', '$r')");
 }
 
 if ($acc == 'nuevo_producto') {
