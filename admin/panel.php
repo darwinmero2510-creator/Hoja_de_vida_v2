@@ -104,6 +104,15 @@ $d = mysqli_fetch_assoc($res_p);
                     <input type="hidden" name="accion" value="nuevo_reconocimiento">
                     <input type="text" name="titulo" placeholder="Ej: Empleado del Mes" required>
                     <input type="text" name="inst" placeholder="Institución" required>
+                    <label>Fecha del reconocimiento (MM/YYYY):</label>
+        <input type="text" 
+               name="fecha_reconocimiento" 
+               placeholder="04/2025">
+
+        <textarea 
+            name="descripcion_reconocimiento" 
+            placeholder="Descripción del reconocimiento">
+        </textarea>
                     <label>Documento de prueba:</label><input type="file" name="archivo" required>
                     <button type="submit" style="background:#27ae60;">Guardar Reconocimiento</button>
                 </form>
