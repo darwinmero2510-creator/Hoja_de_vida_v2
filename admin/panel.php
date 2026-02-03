@@ -125,15 +125,65 @@ $d = mysqli_fetch_assoc($res_p);
             </div>
 
             <div class="card">
-                <h2><i class="fas fa-project-diagram"></i> Nuevo Producto</h2>
-                <form action="procesar_admin.php" method="POST">
-                    <input type="hidden" name="accion" value="nuevo_producto">
-                    <select name="tipo"><option value="Laboral">Laboral</option><option value="Académico">Académico</option></select>
-                    <input type="text" name="nombre" placeholder="Nombre del Proyecto" required>
-                    <textarea name="desc" placeholder="Descripción breve"></textarea>
-                    <button type="submit">Publicar Producto</button>
-                </form>
-            </div>
+    <h2><i class="fas fa-book"></i> Nuevo Producto Académico</h2>
+
+    <form action="procesar_admin.php" method="POST">
+        <input type="hidden" name="accion" value="nuevo_producto_academico">
+
+        <input type="text"
+               name="nombrerecurso"
+               placeholder="Nombre del recurso (ej: Proyecto de Investigación)"
+               required>
+
+        <input type="text"
+               name="clasificador"
+               placeholder="Clasificador (ej: Artículo, Proyecto, Tesis)">
+
+        <textarea name="descripcion"
+                  placeholder="Descripción del producto académico"></textarea>
+
+        <label>
+            <input type="checkbox"
+                   name="activo"
+                   value="1"
+                   checked>
+            Mostrar en la hoja de vida
+        </label>
+
+        <button type="submit">Guardar Producto Académico</button>
+    </form>
+</div>
+
+            <div class="card">
+    <h2><i class="fas fa-briefcase"></i> Nuevo Producto Laboral</h2>
+
+    <form action="procesar_admin.php" method="POST">
+        <input type="hidden" name="accion" value="nuevo_producto_laboral">
+
+        <input type="text"
+               name="nombreproducto"
+               placeholder="Nombre del producto laboral"
+               required>
+
+        <input type="text"
+               name="fechaproducto"
+               placeholder="MM/YYYY"
+               required>
+
+        <textarea name="descripcion"
+                  placeholder="Descripción del producto laboral"></textarea>
+
+        <label>
+            <input type="checkbox"
+                   name="activo"
+                   value="1"
+                   checked>
+            Mostrar en la hoja de vida
+        </label>
+
+        <button type="submit">Guardar Producto Laboral</button>
+    </form>
+</div>
 
             <div class="card full">
                 <h2><i class="fas fa-shopping-cart"></i> Publicar en Venta de Garaje</h2>
