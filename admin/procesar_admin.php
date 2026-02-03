@@ -47,13 +47,14 @@ if ($acc == 'nueva_experiencia') {
     $c = $_POST['cargo'];
     $d = $_POST['desc'];
 
-    $f_inicio = $_POST['f_inicio'] . '-01';
+    $f_inicio = convertirMesAnio($_POST['f_inicio']);
 
     if (!empty($_POST['f_fin'])) {
-        $f_fin = $_POST['f_fin'] . '-01';
+        $f_fin = convertirMesAnio($_POST['f_fin']);
     } else {
         $f_fin = null;
     }
+
 
     /* ===========================
        CERTIFICADO (OPCIONAL)
