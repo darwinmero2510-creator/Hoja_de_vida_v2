@@ -110,8 +110,9 @@ if ($acc == 'nuevo_curso') {
     $idperfil = 1; // Perfil fijo
 
     // Convertir fechas MM/YYYY a YYYY-MM-01
-    $f_inicio = convertirMesAnio($_POST['f_inicio'] ?? '');
+    $f_inicio = convertirMesAnio($_POST['f_inicio']);
     $f_fin = !empty($_POST['f_fin']) ? convertirMesAnio($_POST['f_fin']) : null;
+
 
     // Validar que la fecha final sea >= fecha inicio
     if ($f_fin !== null && strtotime($f_fin) < strtotime($f_inicio)) {
