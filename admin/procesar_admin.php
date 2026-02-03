@@ -138,10 +138,61 @@ $desc_rec = $_POST['descripcion_reconocimiento'] ?? null;
     );
 }
 
-if ($acc == 'nuevo_producto') {
-    $t = $_POST['tipo']; $n = $_POST['nombre']; $d = $_POST['desc'];
-    mysqli_query($conexion, "INSERT INTO productos (idperfil, tipo, nombre_producto, descripcion) VALUES (1, '$t', '$n', '$d')");
+if ($acc == 'nuevo_producto_academico') {
+
+    $idperfil = 1;
+    $nombre = $_POST['nombrerecurso'];
+    $clasificador = $_POST['clasificador'] ?? null;
+    $descripcion = $_POST['descripcion'] ?? null;
+    $activo = isset($_POST['activo']) ? 1 : 0;
+
+    $stmt = $conexion->prepare("
+        INSERT INTO productos_academicos
+        (idperfilconqueestaactivo, nombrerecurso, clasificador, descripcion, activarparaqueseveaenfront)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+
+    $stmt->bind_param(
+        "isssi",
+        $idperfil,
+        $nombre,
+        $clasificador,
+        $descripcion,
+        $activo
+    );
+
+    $stmt->execute();
 }
+
+if ($acc == 'nuevo_producto_laboral') {
+
+    $idperfil = 1;
+    $nombre = $_POST['nombreproducto'];
+    $descripcion = $_POST['descripcion'] ?? null;
+
+    // Convertir fecha MM/YYYY a YYYY-MM-01
+    $fechaproducto = convertirMesAnio($_POST['fechaproducto'] ?? '');
+
+    $activo = isset($_POST['activo']) ? 1 : 0;
+
+    $stmt = $conexion->prepare("
+        INSERT INTO productos_laborales
+        (idperfilconqueestaactivo, nombreproducto, fechaproducto, descripcion, activarparaqueseveaenfront)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+
+    $stmt->bind_param(
+        "isssi",
+        $idperfil,
+        $nombre,
+        $fechaproducto,
+        $descripcion,
+        $activo
+    );
+
+    $stmt->execute();
+}
+
 
 if ($acc == 'nueva_venta') {
     $a = $_POST['articulo']; $p = $_POST['precio'];
