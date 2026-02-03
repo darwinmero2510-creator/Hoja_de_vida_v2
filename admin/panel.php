@@ -87,22 +87,29 @@ $d = mysqli_fetch_assoc($res_p);
             </div>
 
             <div class="card">
-                <h2><i class="fas fa-graduation-cap"></i> Nuevo Curso</h2>
-                <form action="procesar_admin.php" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="accion" value="nuevo_curso">
-                    <input type="text" name="nombre" placeholder="Nombre del Curso" required>
-                    
-                    <label>Mes/Año Inicio:</label>
-                    <input type="month" name="f_inicio" required>
-                    
-                    <label>Mes/Año Fin:</label>
-                    <input type="month" name="f_fin" required>
-                    
-                    <label>Archivo Certificado (PDF):</label>
-                    <input type="file" name="archivo" required>
-                    <button type="submit">Guardar Curso</button>
-                </form>
-            </div>
+    <h2><i class="fas fa-graduation-cap"></i> Nuevo Curso</h2>
+    <form action="procesar_admin.php" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="accion" value="nuevo_curso">
+
+        <input type="text" name="nombre" placeholder="Nombre del Curso" required>
+
+        <label>Mes/Año Inicio:</label>
+        <input type="month" name="f_inicio" required>
+
+        <label>Mes/Año Fin:</label>
+        <input type="month" name="f_fin" required>
+
+        <input type="number" name="totalhoras" placeholder="Total Horas" min="0">
+
+        <textarea name="descripcion_curso" placeholder="Descripción del curso"></textarea>
+
+        <label>Archivo Certificado (PDF):</label>
+        <input type="file" name="archivo">
+
+        <button type="submit">Guardar Curso</button>
+    </form>
+</div>
+
 
             <div class="card">
                 <h2><i class="fas fa-award"></i> Nuevo Reconocimiento</h2>
