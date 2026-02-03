@@ -191,11 +191,25 @@ function mesAnio($fecha) {
     <?php
     $res_rec = mysqli_query(
         $conexion,
-        "SELECT * FROM reconocimientos ORDER BY id_rec DESC"
+        "SELECT * FROM reconocimientos ORDER BY fecha_reconocimiento DESC"
     );
+
+    // Meses en español
+    $meses = [
+        1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+        5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+        9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
+    ];
 
     while ($r = mysqli_fetch_assoc($res_rec)):
         $archivo = trim($r['archivo_url'] ?? '');
+
+        // Formatear fecha si existe
+        $fecha = null;
+        if (!empty($r['fecha_reconocimiento'])) {
+            $ts = strtotime($r['fecha_reconocimiento']);
+            $fecha = $meses[(int)date('m', $ts)] . ' ' . date('Y', $ts);
+        }
     ?>
         <div class="item-reconocimiento">
             <strong><?php echo e($r['titulo']); ?></strong>
@@ -204,6 +218,18 @@ function mesAnio($fecha) {
                 <div class="institucion">
                     🏛 <?php echo e($r['institucion']); ?>
                 </div>
+            <?php endif; ?>
+
+            <?php if ($fecha): ?>
+                <div class="fecha">
+                    📅 <?php echo e($fecha); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($r['descripcion_reconocimiento'])): ?>
+                <p>
+                    <?php echo e($r['descripcion_reconocimiento']); ?>
+                </p>
             <?php endif; ?>
 
             <?php if (!empty($archivo)): ?>
@@ -218,7 +244,7 @@ function mesAnio($fecha) {
         </div>
     <?php endwhile; ?>
 </section>
-</div>
+        </div>
 
        <div class="fila-doble">
 
