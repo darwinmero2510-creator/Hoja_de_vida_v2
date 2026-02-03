@@ -4,6 +4,23 @@ include '../config/conexion.php';
 include '../config/config_cloudinary.php'; 
 
 use Cloudinary\Api\Upload\UploadApi; // Importamos la herramienta de subida
+function convertirMesAnio($fecha) {
+    if (empty($fecha)) return null;
+
+    // Acepta MM/YYYY o MM-YYYY
+    $fecha = str_replace('/', '-', $fecha);
+
+    if (!preg_match('/^\d{2}-\d{4}$/', $fecha)) {
+        echo "<script>
+            alert('Formato incorrecto. Use MM/YYYY (ej: 04/2025)');
+            window.history.back();
+        </script>";
+        exit;
+    }
+
+    list($mes, $anio) = explode('-', $fecha);
+    return $anio . '-' . $mes . '-01';
+}
 
 $acc = $_POST['accion'] ?? null;
 
