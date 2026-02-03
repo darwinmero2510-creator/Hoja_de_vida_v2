@@ -133,7 +133,7 @@ if ($acc == 'nuevo_reconocimiento') {
 
 $desc_rec = $_POST['descripcion_reconocimiento'] ?? null;
 
-    mysqli_query($conexion, "INSERT INTO reconocimientos (idperfil, titulo, institucion, fecha_reconocimiento, descripcion_reconocimiento, archivo_url) VALUES (1, '$t', '$inst', '$fecha_rec', '$desc_rec', '$archivo_url')"
+    mysqli_query($conexion, "INSERT INTO reconocimientos (idperfil, titulo, institucion, fecha_reconocimiento, descripcion_reconocimiento, archivo_url) VALUES (1, '$t', '$inst', '$fecha_rec', '$desc_rec', '$r')"
     );
 }
 
