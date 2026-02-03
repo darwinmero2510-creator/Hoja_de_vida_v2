@@ -147,8 +147,9 @@ function mesAnio($fecha) {
     );
 
     while ($c = mysqli_fetch_assoc($res_cur)):
-        // nombre correcto del campo según tu BD
         $archivo = trim($c['archivo_url'] ?? '');
+        $totalhoras = !empty($c['totalhoras']) ? (int)$c['totalhoras'] : null;
+        $descripcion = trim($c['descripcion_curso'] ?? '');
     ?>
         <div class="item-curso">
             <strong><?php echo e($c['nombre_curso']); ?></strong>
@@ -172,6 +173,18 @@ function mesAnio($fecha) {
                 </span>
             </div>
 
+            <?php if ($totalhoras !== null): ?>
+                <div class="desc-prod">
+                    ⏱ Total Horas: <?php echo e($totalhoras); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($descripcion)): ?>
+                <div class="desc-prod">
+                    📝 <?php echo e($descripcion); ?>
+                </div>
+            <?php endif; ?>
+
             <?php if (!empty($archivo)): ?>
                 <div>
                     <a href="<?php echo e($archivo); ?>"
@@ -184,6 +197,7 @@ function mesAnio($fecha) {
         </div>
     <?php endwhile; ?>
 </section>
+
             
            <section class="caja-blanca mitad">
     <div class="titulo-seccion">Reconocimientos</div>
